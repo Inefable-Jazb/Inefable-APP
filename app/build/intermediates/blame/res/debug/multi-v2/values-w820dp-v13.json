@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "J:\\ProyectosAndroidStudio\\Inefable\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\jazbx\\.gradle\\caches\\transforms-1\\files-1.1\\alerter-3.0.1.aar\\9553049491b3ae4901c5eb777ff2ac53\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}

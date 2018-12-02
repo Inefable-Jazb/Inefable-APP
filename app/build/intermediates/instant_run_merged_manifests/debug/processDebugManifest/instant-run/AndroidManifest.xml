@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cl.inefable.jazb.inefable"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Include required permissions for Google Maps API to run. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_Login"
+            android:label="Inefavle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_Signin"
+            android:label="Inefable acc creator .0001.1" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Login" />
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_AgregarVehiculo"
+            android:label="inefavle car creator ....1..01"
+            android:parentActivityName="cl.inefable.jazb.inefable.Controlador.C_Principal" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Principal" />
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_DetalleVehiculo"
+            android:label="inefavle car detial biewer" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Principal" />
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_ModificarPerfil"
+            android:label="inefavle profail editer" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Principal" />
+        </activity>
+        <activity android:name="cl.inefable.jazb.inefable.Controlador.C_FirstLogin" />
+        <activity android:name="cl.inefable.jazb.inefable.Controlador.C_Principal" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_Mapa_DefinirRuta"
+            android:label="inefalbe map position shoiser"
+            android:parentActivityName="cl.inefable.jazb.inefable.Controlador.C_Principal"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Principal" />
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_FiltrarVehículos"
+            android:label="inefable car shoicer"
+            android:parentActivityName="cl.inefable.jazb.inefable.Controlador.C_Mapa_DefinirRuta" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_Mapa_DefinirRuta" />
+        </activity>
+        <activity
+            android:name="cl.inefable.jazb.inefable.Controlador.C_DetalleReserva"
+            android:label="inefable car shoicer"
+            android:parentActivityName="cl.inefable.jazb.inefable.Controlador.C_FiltrarVehículos" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controlador.C_FiltrarVehículos" />
+        </activity>
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <provider
+            android:name="com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="cl.inefable.jazb.inefable.com.android.tools.ir.server.InstantRunContentProvider"
+            android:multiprocess="true" />
+    </application>
+
+</manifest>
