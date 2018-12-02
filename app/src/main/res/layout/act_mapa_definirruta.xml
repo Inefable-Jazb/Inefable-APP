@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:elevation="10dp"
+            android:layout_margin="4dp">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Dirección Inicio"
+                android:id="@+id/tv_mapa_definirruta_inicio"
+                android:layout_margin="4dp"
+                style="@style/TextViewelevation5"
+                map:layout_constraintTop_toTopOf="parent" map:layout_constraintLeft_toLeftOf="parent"
+                map:layout_constraintRight_toLeftOf="@id/btn_mapa_definirruta_confirmarinicio"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Dirección Destino"
+                android:id="@+id/tv_mapa_definirruta_destino"
+                android:layout_margin="4dp"
+                style="@style/TextViewelevation5"
+                map:layout_constraintTop_toBottomOf="@id/tv_mapa_definirruta_inicio"
+                map:layout_constraintLeft_toLeftOf="parent"
+                map:layout_constraintRight_toLeftOf="@id/btn_mapa_definirruta_confirmardestino"/>
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/btn_mapa_definirruta_confirmarinicio"
+                android:text="Confirmar"
+                map:layout_constraintTop_toTopOf="@id/btn_mapa_definirruta_confirmarinicio"
+                map:layout_constraintRight_toRightOf="parent"
+                map:layout_constraintBottom_toBottomOf="@id/tv_mapa_definirruta_inicio"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="@color/primaryTextColor" android:elevation="10dp"/>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/btn_mapa_definirruta_confirmardestino"
+                android:text="Confirmar"
+                map:layout_constraintTop_toTopOf="@id/tv_mapa_definirruta_destino"
+                map:layout_constraintBottom_toBottomOf="@id/tv_mapa_definirruta_destino"
+                map:layout_constraintRight_toRightOf="parent"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="@color/primaryTextColor" android:elevation="10dp"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <fragment android:id="@+id/map_mapa_definirruta_mapa" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_alignParentEnd="true"
+                                                        android:layout_alignParentBottom="true"
+                                                        android:layout_margin="16dp"
+                                                        android:src="@drawable/ic_ico_checktick"
+                                                        android:visibility="gone"
+                                                        android:id="@+id/fab_mapa_definirruta_filtrarvehiculo"/>
+    <TextView android:layout_width="wrap_content"
+              android:id="@+id/tv_mapa_definirruta_distancia"
+              android:layout_height="wrap_content"
+              android:visibility="invisible"
+              android:text="Distancia:"
+              style="@style/Titulo_2"
+              android:elevation="5dp"
+              android:layout_alignParentBottom="true"
+              android:layout_alignParentStart="true"
+              android:layout_marginStart="8dp"
+              android:layout_marginBottom="32dp"/>
+
+    <TextView
+            android:id="@+id/tv_mapa_definirruta_leyendadestino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posición de destino."
+            android:visibility="visible"
+            style="@style/Titulo_3"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:drawableStart="@drawable/ic_map_marker_end"
+            android:layout_above="@+id/tv_mapa_definirruta_distancia"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Posición de inicio."
+              android:drawableStart="@drawable/ic_map_marker_start"
+              android:visibility="visible"
+              style="@style/Titulo_3"
+              android:layout_marginStart="8dp"
+              android:layout_above="@+id/tv_mapa_definirruta_leyendadestino"/>
+</RelativeLayout>

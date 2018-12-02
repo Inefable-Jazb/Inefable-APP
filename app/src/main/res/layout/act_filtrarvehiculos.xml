@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Titulo_1"
+              android:text="Filtrar Vehículos"/>
+    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Mostrar Filtros" android:checked="true"
+              android:id="@+id/id_filtrarvehiculos_mostrarfiltros"/>
+    <LinearLayout android:id="@+id/ll_filtrarvehículos_panelfiltros" android:layout_width="match_parent"
+                  android:layout_height="wrap_content" android:orientation="vertical">
+        <android.support.design.widget.TextInputLayout android:id="@+id/til_filtrarvehículos_cargamax"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:layout_height="wrap_content"
+                                                             android:hint="Carga Máx."
+                                                             android:inputType="numberDecimal"/>
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout android:id="@+id/til_filtrarvehículos_altura"
+                                                           android:layout_width="100dp"
+                                                           android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                                 android:layout_height="wrap_content"
+                                                                 android:hint="Altura"
+                                                                 android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:id="@+id/til_filtrarvehículos_largo"
+                                                           android:layout_width="100dp"
+                                                           android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                                 android:layout_height="wrap_content"
+                                                                 android:hint="Largo"
+                                                                 android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout android:id="@+id/til_filtrarvehículos_ancho"
+                                                           android:layout_width="100dp"
+                                                           android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                                 android:layout_height="wrap_content"
+                                                                 android:hint="Ancho"
+                                                                 android:inputType="numberDecimal"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Los campos pueden quedar vacios." style="@style/Base.TextAppearance.AppCompat.Caption"
+                  android:layout_margin="4dp"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/rv_filtrarvehiculos_listafiltrada"/>
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Detalles del Vehículo" style="@style/Titulo_1"/>
+
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_patente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehículo: AB CD-12"
+                    style="@style/Titulo_3"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valoración promedio"
+                    android:layout_gravity="center"/>
+            <RatingBar
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+                    android:id="@+id/rb_detallevehiculo_valoracionpromedio"
+            />
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_marca"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marca:"/>
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_volumen"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volumen:"/>
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_cargamax"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carga Máxima:"/>
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_tipo"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de vehículo:"/>
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_rendimiento"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rendimiento:"/>
+            <TextView
+                    android:id="@+id/tv_detallevehiculo_propietario"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dueño:"/>
+            <TextView
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comentarios:"/>
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_detallevehiculo_comentarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

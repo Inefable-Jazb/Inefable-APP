@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView style="@style/Titulo_1" android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Detalle Reserva"/>
+
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Datos del vehículo" style="@style/Requisitos_Label" android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_patente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehículo: AB CD-12"
+                    style="@style/DetalleCamionTextoInformacion"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_marca"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marca:"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_volumen"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volumen (alto, largo, ancho):"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_cargamax"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carga Máxima:"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_tipo"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de vehículo:"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_valor"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valor por KM.: " android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_valorbase"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Valor Base: " android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_propietario"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dueño:"/>
+
+            <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="4dp"
+                    android:background="?android:attr/listDivider"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      style="@style/Requisitos_Label" android:text="Datos de la reserva" android:textStyle="bold"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_direccioninicio"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de vehículo:"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_direciondestino"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valor por KM.: "/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_distancia"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distancia (en metros):"/>
+            <TextView
+                    android:id="@+id/tv_detallereserva_costototal"
+                    style="@style/DetalleCamionTextoInformacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Costo Total:" android:textStyle="bold"/>
+            <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Confirmar Reserva" style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:id="@+id/btn_detallereserva_guardarreserva"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

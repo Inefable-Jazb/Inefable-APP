@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Cerrar Sesión" android:icon="@drawable/ic_ico_logout_square"
+          android:checkable="false" app:showAsAction="always" android:id="@+id/item_menu_cerrarsesion"/>
+    <item android:title="Modificar Perfil" android:icon="@drawable/ic_ico_edit"
+          android:id="@+id/item_menu_modificarperfil" app:showAsAction="withText"/>
+</menu>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciar Sesión"
+            style="@style/Titulo_1"/>
+    <RadioGroup
+            android:id="@+id/rg_login_tipousuario"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <RadioButton
+                android:id="@+id/rb_login_cliente"
+                android:text="Cliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+        <RadioButton
+                android:id="@+id/rb_login_conductor"
+                android:text="Conductor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RadioGroup>
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_login_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usuario"
+                android:tag="Usuario" android:text="Jazb"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_login_clave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" app:passwordToggleEnabled="true">
+        <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Clave"
+                android:tag="Clave" android:text="Metanoch4"/>
+    </android.support.design.widget.TextInputLayout>
+    <LinearLayout android:visibility="gone" android:layout_marginVertical="4dp" android:orientation="horizontal"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/ll_login_cargando" android:layout_gravity="center">
+        <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Iniciando Sesión" android:layout_gravity="center"/>
+    </LinearLayout>
+    <Button
+            android:id="@+id/btn_login_autenticar"
+            android:text="Autenticar"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.Widget.AppCompat.Button.Colored"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"/>
+    <Button
+            android:id="@+id/btn_login_crearcuenta"
+            android:text="Crear Cuenta"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+</LinearLayout>
