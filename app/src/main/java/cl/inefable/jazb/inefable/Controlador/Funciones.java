@@ -27,7 +27,7 @@ class Funciones {
     private static String regexNombreApellidoMarca = "^[a-zA-Zñá-úÁ-Ú]{2,}$";
 
     public void tuViejaEstuvoAqui(){
-        System.out.println("8=D");
+        System.out.println("polloputo");
     }
 
     public static String[] nivelesClave = new String[]{
