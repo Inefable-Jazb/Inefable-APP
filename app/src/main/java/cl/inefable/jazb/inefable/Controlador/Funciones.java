@@ -1,27 +1,19 @@
 package cl.inefable.jazb.inefable.Controlador;
 
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.util.Log;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Direccion;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
-import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
-import cl.inefable.jazb.inefable.R;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.tapadoo.alerter.Alerter;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,6 +25,10 @@ class Funciones {
     private static String regexPatente = "^[BCDFGHJKLPRSTVWXY]{4}$";
     private static final String regexCorreo = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     private static String regexNombreApellidoMarca = "^[a-zA-Zñá-úÁ-Ú]{2,}$";
+
+    public void tuViejaEstuvoAqui(){
+        System.out.println("8=D");
+    }
 
     public static String[] nivelesClave = new String[]{
             "^(?=.*[A-Z])[a-zA-Z\\d]+$",
@@ -332,5 +328,6 @@ class Funciones {
             }
             return sb.toString();
         }
+
     }
 }
