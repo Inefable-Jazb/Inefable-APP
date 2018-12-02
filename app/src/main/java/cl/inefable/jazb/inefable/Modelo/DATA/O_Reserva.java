@@ -18,6 +18,7 @@ public class O_Reserva implements Serializable {
     private O_Ruta Ruta;
 
     public O_Reserva() {
+
     }
 
     public String getCalleDestino() {

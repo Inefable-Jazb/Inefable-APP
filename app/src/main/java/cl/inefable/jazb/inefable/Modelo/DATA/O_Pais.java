@@ -1,6 +1,8 @@
 package cl.inefable.jazb.inefable.Modelo.DATA;
 
-public class O_Pais {
+import java.io.Serializable;
+
+public class O_Pais implements Serializable {
     private int ID;
     private String Nombre;
     private String Carrier;

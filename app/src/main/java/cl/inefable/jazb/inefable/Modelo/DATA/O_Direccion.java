@@ -6,8 +6,17 @@ public class O_Direccion implements Serializable {
     private String Calle;
     private int Numero;
     private String Ciudad, Region, Pais;
+
+    private String Nombre;
     private double Latitud, Longitud;
     private int IDUsuario;
+
+    public O_Direccion(String nombre, double latitud, double longitud, int IDUsuario) {
+        Nombre = nombre;
+        Latitud = latitud;
+        Longitud = longitud;
+        this.IDUsuario = IDUsuario;
+    }
 
     public O_Direccion(String calle, int numero, String ciudad, String region, String pais, double latitud, double longitud, int IDUsuario) {
         Calle = calle;

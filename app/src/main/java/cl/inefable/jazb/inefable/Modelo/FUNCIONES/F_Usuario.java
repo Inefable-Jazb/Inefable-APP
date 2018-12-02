@@ -2,9 +2,7 @@ package cl.inefable.jazb.inefable.Modelo.FUNCIONES;
 
 import android.util.Log;
 import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
+import cl.inefable.jazb.inefable.Modelo.DATA.*;
 import org.json.JSONArray;
 
 import java.io.UnsupportedEncodingException;
@@ -41,12 +39,12 @@ public class F_Usuario {
                     "IDUSUARIO=" + reserva.getUsuario().getID() + "&" +
                     "IDCAMION=" + reserva.getVehiculo().getID() + "&" +
                     "TIPORESERVA=1&" +
-                    "LATITUDDESTINO=" + reserva.getLatDes() + "&" +
-                    "LONGITUDDESTINO=" + reserva.getLongDes() + "&" +
+                    "LATITUDDESTINO=" + URLEncoder.encode(reserva.getLatDes() + "", "utf-8") + "&" +
+                    "LONGITUDDESTINO=" + URLEncoder.encode(reserva.getLongDes() + "", "utf-8") + "&" +
                     "VALORTOTAL=" + reserva.getValorTotal() + "&" +
                     "DIRECCIONFULL=" + URLEncoder.encode(reserva.getRuta().getDireccionInicio(), "utf-8") + "&" +
-                    "LATITUD=" + reserva.getInicio().getLatitud() + "&" +
-                    "LONGITUD=" + reserva.getInicio().getLongitud();
+                    "LATITUD=" + URLEncoder.encode(reserva.getInicio().getLatitud() + "", "utf-8") + "&" +
+                    "LONGITUD=" + URLEncoder.encode(reserva.getInicio().getLongitud() + "", "utf-8");
             Enlace.RespuetaHTTP respueta;
             respueta = new Enlace().execute(params).get();
             return Integer.parseInt(respueta.getRespuesta());
@@ -57,9 +55,70 @@ public class F_Usuario {
     }
 
     public static ArrayList<O_Reserva> TaaerReservasCliente(int id) {
-        ArrayList<O_Reserva> listado = new ArrayList<>();
+        String params = "TIPO=reserva&OP=traerreservascliente&ID=" + id;
+        Enlace.RespuetaHTTP respueta;
+        ArrayList<O_Reserva> lista;
 
-        return listado;
+        try {
+            lista = new ArrayList<>();
+            respueta = new Enlace().execute(params).get();
+            Log.d("HTTP RESPONSE DATA", respueta.getRespuesta());
+            if (respueta.getRespuesta().equals("0")) {
+                return new ArrayList<>();
+            } else {
+                String[] filas = respueta.getRespuesta().split("%%");
+                for (String fila :
+                        filas) {
+                    JSONArray r = new JSONArray(fila);
+                    O_Reserva aux = new O_Reserva();
+                    aux.setID(r.getInt(0));
+                    aux.setVehiculo(new O_Vehiculo(
+                            r.getInt(1),
+                            r.getString(2),
+                            r.getString(3),
+                            r.getDouble(4),
+                            r.getDouble(5),
+                            r.getDouble(6),
+                            r.getInt(7),
+                            r.getString(8),
+                            r.getInt(9),
+                            r.getInt(10),
+                            new O_Usuario(
+                                    r.getInt(11),
+                                    r.getString(12),
+                                    r.getString(13),
+                                    r.getString(14),
+                                    r.getString(15),
+                                    new O_Pais(
+                                            r.getInt(16),
+                                            r.getString(17),
+                                            r.getString(18)
+                                    )
+                            )
+                    ));
+                    aux.setTipo(r.getInt(19));
+                    aux.setEstado(new O_EstadoReserva(
+                            r.getInt(20),
+                            r.getString(21),
+                            r.getString(22)
+                    ));
+                    aux.setFecha(r.getString(23));
+                    aux.setInicio(new O_Direccion(
+                            r.getString(24),
+                            r.getDouble(25),
+                            r.getDouble(26),
+                            r.getInt(27)
+                    ));
+                    aux.setLatDes(r.getDouble(28));
+                    aux.setLongDes(r.getDouble(29));
+                    aux.setValorTotal(r.getInt(30));
+                    lista.add(aux);
+                }
+                return lista;
+            }
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     public int Crear(O_Usuario usuario) {

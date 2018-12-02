@@ -16,6 +16,16 @@ public class O_Vehiculo implements Serializable {
     private double cantidadValoraciones;
     private int ValorBase;
 
+    private O_Usuario Dueño;
+
+    public O_Usuario getDueño() {
+        return Dueño;
+    }
+
+    public void setDueño(O_Usuario dueño) {
+        Dueño = dueño;
+    }
+
     public double getValoracion() {
         return Valoracion;
     }
@@ -39,6 +49,35 @@ public class O_Vehiculo implements Serializable {
         Valoracion = valoracion;
         this.cantidadValoraciones = cantidadValoraciones;
         ValorBase = valorbase;
+    }
+
+    /**
+     * constructor para las reservas
+     *
+     * @param ID
+     * @param patente
+     * @param marca
+     * @param altura
+     * @param largo
+     * @param ancho
+     * @param cargaMax
+     * @param tipo
+     * @param valor
+     * @param valorBase
+     * @param dueño
+     */
+    public O_Vehiculo(int ID, String patente, String marca, double altura, double largo, double ancho, int cargaMax, String tipo, int valor, int valorBase, O_Usuario dueño) {
+        this.ID = ID;
+        Patente = patente;
+        Marca = marca;
+        Altura = altura;
+        Largo = largo;
+        Ancho = ancho;
+        CargaMax = cargaMax;
+        Tipo = tipo;
+        Valor = valor;
+        ValorBase = valorBase;
+        Dueño = dueño;
     }
 
     public O_Vehiculo(int ID, String patente, String marca, double altura, double largo, double ancho, int cargaMax, String tipo, int valor, int propietario, int disponibilidad) {

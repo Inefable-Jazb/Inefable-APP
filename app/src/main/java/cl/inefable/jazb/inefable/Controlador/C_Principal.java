@@ -17,6 +17,7 @@ import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Vehiculo;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
+import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
 import cl.inefable.jazb.inefable.R;
 import com.tapadoo.alerter.Alerter;
 
@@ -63,7 +64,7 @@ public class C_Principal extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         Lista.setLayoutManager(llm);
 
-        Lista_Reservados lista = new Lista_Reservados(F_Vehiculo.TraerVehiculosCliente(UsuarioActual.getID()));
+        Lista_Reservados lista = new Lista_Reservados(F_Usuario.TaaerReservasCliente(UsuarioActual.getID()));
         if (lista.getItemCount() == 0) {
             O_Alerta alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,
@@ -218,10 +219,10 @@ public class C_Principal extends AppCompatActivity {
     }
 
     class Lista_Reservados extends RecyclerView.Adapter<Lista_Reservados.VehicleViewHolder> {
-        private ArrayList<O_Vehiculo> vehiculos;
+        private ArrayList<O_Reserva> reservas;
 
-        public Lista_Reservados(ArrayList<O_Vehiculo> vehiculos) {
-            this.vehiculos = vehiculos;
+        public Lista_Reservados(ArrayList<O_Reserva> reserva) {
+            this.reservas = reserva;
         }
 
         @NonNull
@@ -234,28 +235,35 @@ public class C_Principal extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull final VehicleViewHolder holder, final int position) {
-            holder.asd.setTag(vehiculos.get(position));
+            holder.asd.setTag(reservas.get(position));
             holder.asd.setOnClickListener(rv_ItemClick());
-            holder.Patente.setText(vehiculos.get(position).getPatente());
-            holder.Marca.setText("Marca: " + vehiculos.get(position).getTipo());
+            holder.Patente.setText(reservas.get(position).getVehiculo().getPatente());
+            holder.Estado.setText("Estado: " + reservas.get(position).getEstado().getNombre());
+
+            O_Ruta ruta = Funciones.CalcularDistancia(reservas.get(position));
+            reservas.get(position).setRuta(ruta);
+            holder.Desde.setText("Desde: " + reservas.get(position).getRuta().getDireccionInicio());
+            holder.Hasta.setText("Hasta: " + reservas.get(position).getRuta().getDireccionDestino());
         }
 
         @Override
         public int getItemCount() {
-            return vehiculos.size();
+            return reservas.size();
         }
 
         public class VehicleViewHolder extends RecyclerView.ViewHolder {
             View asd;
             RecyclerView lista;
-            TextView Patente, Marca;
+            TextView Patente, Estado, Desde, Hasta;
 
             VehicleViewHolder(View itemView) {
                 super(itemView);
                 asd = itemView;
                 lista = itemView.findViewById(R.id.rv_principal_listavehiculos);
-                Patente = itemView.findViewById(R.id.tv_listacliente_patente);
-                Marca = itemView.findViewById(R.id.tv_listacliente_marca);
+                Patente = itemView.findViewById(R.id.tv_listavehiculoscliente_Patente);
+                Estado = itemView.findViewById(R.id.tv_listavehiculoscliente_Estdo);
+                Desde = itemView.findViewById(R.id.tv_listavehiculoscliente_Inicio);
+                Hasta = itemView.findViewById(R.id.tv_listavehiculoscliente_Destino);
             }
         }
     }
@@ -264,7 +272,8 @@ public class C_Principal extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                O_Vehiculo vehiculo = (O_Vehiculo) v.getTag();
+                O_Reserva reserva = (O_Reserva) v.getTag();
+                O_Vehiculo vehiculo = reserva.getVehiculo();
                 Intent destino = new Intent(C_Principal.this, C_DetalleVehiculo.class);
                 destino.putExtra("VEHICULO", vehiculo);
                 startActivityForResult(destino, C_DetalleVehiculo.ActCode);
@@ -323,7 +332,7 @@ public class C_Principal extends AppCompatActivity {
                     O_Alerta alerta = new O_Alerta(
                             O_Alerta.TIPO_CORRECTO,
                             "Reservar Vehiculo",
-                            "TU reserva está lista, te recomendamos seguir buscando a tus padres",
+                            "TU reservas está lista, te recomendamos seguir buscando a tus padres",
                             false,
                             2000,
                             O_Alerta.RES_ICO_CORRECTO

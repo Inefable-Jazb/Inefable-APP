@@ -109,8 +109,8 @@ public class C_DetalleReserva extends AppCompatActivity {
         Valor.setText("Valor estimado: $" + vehiculo.getValor() + "/km.");
         ValorBase.setText("Valor Base: $" + vehiculo.getValorBase());
         Propietario.setText("Propietario: " + vehiculo.getPropietario());
-        DirInicio.setText("Dirección de Inicio: " + reserva.getRuta().getDireccionInicio());
-        DirDestino.setText("Dirección de destino: " + reserva.getRuta().getDireccionDestino());
+        DirInicio.setText("Dirección de Inicio: " + reserva.getRuta().getDireccionInicio() + " COOR: (" + reserva.getInicio().getLatitud() + " ; " + reserva.getInicio().getLongitud() + ")");
+        DirDestino.setText("Dirección de destino: " + reserva.getRuta().getDireccionDestino() + " COOR: (" + reserva.getLatDes() + " ; " + reserva.getLongDes() + ")");
         Distancia.setText("Distancia: " + reserva.getRuta().getDistanciaAprox() + " (" + reserva.getRuta().getDistanciaReal() + " m)");
         CostoTotal.setText("Valor estimado del servicio: $" + costoTotal);
     }

@@ -183,7 +183,6 @@ class Funciones {
 
     public static String[] obtenerDireccion(Geocoder geocoder, LatLng latlng) {
         List<Address> addresses;
-
         try {
             addresses = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         } catch (IOException e) {
@@ -204,7 +203,10 @@ class Funciones {
         return address;
     }
 
-
+    public static String NombreDIreccionLatLon(Geocoder geocoder, LatLng latlng) {
+        String[] direccion = obtenerDireccion(geocoder, latlng);
+        return direccion[6] + " " + direccion[7] + ", " + direccion[1];
+    }
     public static O_Ruta CalcularDistancia(O_Reserva reserva) {
         String auxxx;
         try {

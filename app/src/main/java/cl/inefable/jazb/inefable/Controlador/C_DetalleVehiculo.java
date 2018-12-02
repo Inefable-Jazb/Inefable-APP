@@ -38,7 +38,12 @@ public class C_DetalleVehiculo extends AppCompatActivity {
         CargaMax.setText("Carga Máx .: " + vehiculo.getCargaMax() + " Kg");
         Tipo.setText("Marca: " + vehiculo.getTipo());
         Rendimiento.setText("Rendimiento: " + vehiculo.getValor() + " Km/L");
-        Propietario.setText("Propietario: " + vehiculo.getPropietario());
+        if (vehiculo.getDueño() != null) {
+            Propietario.setText("Propietario: " + vehiculo.getDueño().getNombres() + " " + vehiculo.getDueño().getApellidos());
+
+        } else {
+            Propietario.setText("Propietario: " + vehiculo.getPropietario());
+        }
     }
 
     private void InicializarComponenetes() {
