@@ -14,10 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.widget.*;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Direccion;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
@@ -32,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.tapadoo.alerter.Alerter;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyCallback {
@@ -43,11 +45,13 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
 
     private boolean configInicio = true, configDestino = false;
 
-    private TextView Inicio, Destino, Distancia;
-
-    private Button ConfirmarInicio, ConfirmarDestino;
+    private TextView Distancia;
 
     private FloatingActionButton FiltrarVehiculo;
+
+    private AutoCompleteTextView DirInicio, DirDestino;
+
+    private LinearLayout PanelInicio, PanelDestino;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +65,58 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
     }
 
     private void ConfigurarListeners() {
-        ConfirmarInicio.setOnClickListener(btn_Click());
-        ConfirmarDestino.setOnClickListener(btn_Click());
         FiltrarVehiculo.setOnClickListener(btn_Click());
+
+        ArrayList<String> lista = new ArrayList<>();
+        lista.add("Uno");
+        lista.add("Dos");
+        lista.add("Tres");
+        lista.add("Cuatro");
+        lista.add("Cinco");
+        lista.add("Seis");
+        lista.add("Siete");
+        lista.add("Ocho");
+        lista.add("Nueve");
+        lista.add("Diez");
+        ArrayAdapter adaptador = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, lista);
+        DirInicio.setAdapter(adaptador);
+        DirInicio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                HabilitarDestino(!hasFocus);
+            }
+        });
+        DirInicio.setOnEditorActionListener(actv_SearchListener());
+        DirDestino.setOnEditorActionListener(actv_SearchListener());
+    }
+
+    private TextView.OnEditorActionListener actv_SearchListener() {
+        return new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String dir = v.getText().toString().trim();
+                    Geocoder geo = new Geocoder(getApplicationContext());
+                    LatLng coor = Funciones.ObtenerLatLngporDireccion(geo, dir);
+                    if (coor != null) {
+                        AgregarMarcador(coor);
+                    } else {
+                        O_Alerta alerta = new O_Alerta(
+                                O_Alerta.TIPO_ERROR,
+                                "Agregar Marcador",
+                                "No se ha podido encontrar la dirección, revisar e intentar nuevamente.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_ERROR
+                        );
+                        MostrarAlerta(alerta);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     private View.OnClickListener btn_Click() {
@@ -73,47 +126,30 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
             public void onClick(View v) {
                 O_Alerta alerta;
                 switch (v.getId()) {
-                    case R.id.btn_mapa_definirruta_confirmarinicio:
+                    case R.id.fab_mapa_definirruta_filtrarvehiculo:
                         if (inicio == null) {
                             alerta = new O_Alerta(
                                     O_Alerta.TIPO_ERROR,
                                     "Definir ruta",
-                                    "Seleccione la ubicación de inicio de la ruta.",
+                                    "Seleccionar punto de inicio.",
                                     false,
                                     2000,
                                     O_Alerta.RES_ICO_ERROR
                             );
                             MostrarAlerta(alerta);
-                        } else {
-                            HabilitarDestino(true);
-                        }
-                        FiltrarVehiculo.setVisibility(View.GONE);
-                        break;
-                    case R.id.btn_mapa_definirruta_confirmardestino:
-                        if (destino == null) {
+                            break;
+                        } else if (destino == null) {
                             alerta = new O_Alerta(
                                     O_Alerta.TIPO_ERROR,
                                     "Definir ruta",
-                                    "Seleccione la ubicación de destino de la ruta.",
+                                    "Seleccionar punto de destino.",
                                     false,
                                     2000,
                                     O_Alerta.RES_ICO_ERROR
                             );
-                            FiltrarVehiculo.setVisibility(View.GONE);
-                        } else {
-                            alerta = new O_Alerta(
-                                    O_Alerta.TIPO_CORRECTO,
-                                    "Definir ruta",
-                                    "Ruta definida con exito",
-                                    false,
-                                    2000,
-                                    O_Alerta.RES_ICO_CORRECTO
-                            );
-                            FiltrarVehiculo.setVisibility(View.VISIBLE);
+                            MostrarAlerta(alerta);
+                            break;
                         }
-                        MostrarAlerta(alerta);
-                        break;
-                    case R.id.fab_mapa_definirruta_filtrarvehiculo:
                         O_Direccion dirInicio = AgregarDireccion(inicio);
 
                         O_Reserva reserva = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
@@ -123,8 +159,8 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
                         }
                         reserva.setLatDes(destino.getPosition().latitude);
                         reserva.setLongDes(destino.getPosition().longitude);
-                        reserva.setCalleInicio(Inicio.getText().toString());
-                        reserva.setCalleDestino(Destino.getText().toString());
+                        reserva.setCalleInicio(DirInicio.getText().toString().trim());
+                        reserva.setCalleDestino(DirDestino.getText().toString().trim());
                         reserva.setInicio(dirInicio);
                         O_Ruta ruta = Funciones.CalcularDistancia(reserva);
                         reserva.setRuta(ruta);
@@ -158,17 +194,35 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
     private void ConfigurarComponenetes() {
         HabilitarDestino(false);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        PanelInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DirInicio.showDropDown();
+                DirInicio.requestFocus();
+            }
+        });
+    }
+
+    private GoogleMap.OnMarkerClickListener marker_click() {
+        return new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 16));
+                marker.showInfoWindow();
+                return true;
+            }
+        };
     }
 
     private void InicializarComponentes() {
-        Inicio = findViewById(R.id.tv_mapa_definirruta_inicio);
-        Destino = findViewById(R.id.tv_mapa_definirruta_destino);
         Distancia = findViewById(R.id.tv_mapa_definirruta_distancia);
 
-        ConfirmarInicio = findViewById(R.id.btn_mapa_definirruta_confirmarinicio);
-        ConfirmarDestino = findViewById(R.id.btn_mapa_definirruta_confirmardestino);
+        DirInicio = findViewById(R.id.actv_mapa_definirruta_inicio);
+        DirDestino = findViewById(R.id.actv_mapa_definirruta_destino);
 
         FiltrarVehiculo = findViewById(R.id.fab_mapa_definirruta_filtrarvehiculo);
+        PanelInicio = findViewById(R.id.ll_mapa_definirruta_inicio);
+        PanelDestino = findViewById(R.id.ll_mapa_definirruta_destino);
     }
 
     private void ConfigurarMapa() {
@@ -238,34 +292,38 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
                     Toast.makeText(C_Mapa_DefinirRuta.this, "Cancelado", Toast.LENGTH_SHORT).show();
                 }
             });
+            mMap.setOnMarkerClickListener(marker_click());
         }
     }
 
     private void HabilitarDestino(boolean habilitado) {
         O_Alerta alerta;
+        ImageButton inicio = findViewById(R.id.ib_mapa_definirruta_iconinicio);
+        ImageButton destino = findViewById(R.id.ib_mapa_definirruta_icondestino);
         if (!habilitado) {
             alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,
                     "Definir ruta",
-                    "Selecciona el lugar donde el conductor deberá ir a buscar la carga.",
+                    "Selecciona el lugar donde el conductor deberá ir a buscar la carga O escribe la dirección en su lugar.",
                     false,
-                    2000,
+                    1500,
                     O_Alerta.RES_ICO_INFO
             );
+            inicio.getDrawable().setTint(getColor(R.color.color_marker_start_default));
+            destino.getDrawable().setTint(getColor(R.color.icon_disbled_color));
         } else {
+            destino.getDrawable().setTint(getColor(R.color.color_marker_end_default));
+            inicio.getDrawable().setTint(getColor(R.color.icon_disbled_color));
             alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,
                     "Definir ruta",
-                    "Ahora indicanos a donde deberá llegar el conductor.",
+                    "Ahora indicanos a donde deberá llegar el conductor o escribe la dirección en su lugar.",
                     false,
-                    2000,
+                    1500,
                     O_Alerta.RES_ICO_INFO
             );
         }
-        ConfirmarDestino.setEnabled(habilitado);
         configDestino = habilitado;
-
-        ConfirmarInicio.setEnabled(!habilitado);
         configInicio = !habilitado;
 
         MostrarAlerta(alerta);
@@ -275,50 +333,84 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
         return new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-
-                MarkerOptions marker;
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                String[] direccion = Funciones.obtenerDireccion(geocoder, latLng);
-                String dir = direccion[6] + " " + direccion[7] + ", " + direccion[1];
-
-                if (configInicio) {
-                    if (inicio != null) {
-                        //inicio.remove();
-                        inicio.setPosition(latLng);
-                        Inicio.setText(dir);
-                    } else {
-                        marker = new MarkerOptions();
-                        Inicio.setText(dir);
-                        marker.title("Inicio");
-                        marker.position(latLng);
-                        inicio = mMap.addMarker(marker);
-                        inicio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                    }
-                    //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                } else if (configDestino) {
-                    if (destino != null) {
-                        //inicio.remove();
-                        destino.setPosition(latLng);
-                        Destino.setText(dir);
-                    } else {
-                        marker = new MarkerOptions();
-                        Destino.setText(dir);
-                        marker.title("Destino");
-                        marker.position(latLng);
-                        destino = mMap.addMarker(marker);
-                        destino.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    }
-                    O_Direccion oDireccion = AgregarDireccion(inicio);
-                    O_Reserva reserva = new O_Reserva();
-                    reserva.setInicio(oDireccion);
-                    reserva.setLongDes(destino.getPosition().longitude);
-                    reserva.setLatDes(destino.getPosition().latitude);
-                    O_Ruta ruta = Funciones.CalcularDistancia(reserva);
-                    Distancia.setText("Distancia: " + ruta.getDistanciaAprox() + " (" + ruta.getDistanciaReal() + " m)");
-                    Distancia.setVisibility(View.VISIBLE);
-                }
+                AgregarMarcador(latLng);
             }
         };
+    }
+
+    private void AgregarMarcador(LatLng latLng) {
+        MarkerOptions marker;
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        String[] direccion = Funciones.obtenerDireccion(geocoder, latLng);
+        String dir = direccion[6] + " " + direccion[7] + ", " + direccion[1];
+
+        if (configInicio) {
+            if (inicio != null) {
+                inicio.setPosition(latLng);
+                String aux = DirInicio.getText().toString().trim();
+                if (aux.equals("")) {
+                    DirInicio.setText(dir);
+                }
+            } else {
+                marker = new MarkerOptions();
+                String aux = DirInicio.getText().toString().trim();
+                if (aux.equals("")) {
+                    DirInicio.setText(dir);
+                }
+                marker.title("Inicio");
+                marker.position(latLng);
+                inicio = mMap.addMarker(marker);
+                inicio.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        } else if (configDestino) {
+            if (destino != null) {
+                destino.setPosition(latLng);
+                String aux = DirDestino.getText().toString().trim();
+                if (aux.equals("")) {
+                    DirDestino.setText(dir);
+                }
+            } else {
+                marker = new MarkerOptions();
+                String aux = DirDestino.getText().toString().trim();
+                if (aux.equals("")) {
+                    DirDestino.setText(dir);
+                }
+                marker.title("Destino");
+                marker.position(latLng);
+                destino = mMap.addMarker(marker);
+                destino.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+        }
+        if (inicio != null && destino != null) {
+            O_Direccion oDireccion = AgregarDireccion(inicio);
+            O_Reserva reserva = new O_Reserva();
+            reserva.setInicio(oDireccion);
+            reserva.setLongDes(destino.getPosition().longitude);
+            reserva.setLatDes(destino.getPosition().latitude);
+            O_Ruta ruta = Funciones.CalcularDistancia(reserva);
+            if (ruta == null) {
+                O_Alerta alerta = new O_Alerta(
+                        O_Alerta.TIPO_ERROR,
+                        "Calcular distancia",
+                        "No hay una ruta por tierra disponible, seleccionar otra ubicación.",
+                        false,
+                        2000,
+                        O_Alerta.RES_ICO_ERROR
+                );
+                MostrarAlerta(alerta);
+                return;
+            }
+            Distancia.setText("Distancia: " + ruta.getDistanciaAprox() + " (" + ruta.getDistanciaReal() + " m)");
+            Distancia.setVisibility(View.VISIBLE);
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(inicio.getPosition());
+            builder.include(destino.getPosition());
+            LatLngBounds bounds = builder.build();
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+            mMap.animateCamera(cu);
+        }
     }
 
     @Override
@@ -330,7 +422,8 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     ConfigurarMapa();
                 } else {
-                    Toast.makeText(this, "No me dieron permiso ggggg.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Autorizar permisos par acceder a la funcion reserva.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 break;
         }

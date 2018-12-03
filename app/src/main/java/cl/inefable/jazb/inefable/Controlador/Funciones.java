@@ -234,6 +234,29 @@ class Funciones {
         }
     }
 
+    public static LatLng ObtenerLatLngporDireccion(Geocoder coder, String strAddress) {
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
+
 
     private static class MatrixAsync extends AsyncTask<O_Reserva, Integer, MatrixAsync.RespuetaHTTP> {
 
