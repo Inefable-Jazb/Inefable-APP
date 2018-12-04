@@ -100,6 +100,11 @@ public class O_Usuario implements Serializable {
         Tipo = tipo;
     }
 
+    public O_Usuario(int ID, String clave) {
+        this.ID = ID;
+        Clave = clave;
+    }
+
     public int getID() {
         return ID;
     }

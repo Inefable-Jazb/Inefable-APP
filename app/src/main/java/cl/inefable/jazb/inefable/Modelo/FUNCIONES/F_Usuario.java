@@ -31,7 +31,7 @@ public class F_Usuario {
             return -1;
         }
     }
-
+    
     public static int AgregarReserva(O_Reserva reserva) {
         try {
             String params = "TIPO=reserva&" +
@@ -118,6 +118,24 @@ public class F_Usuario {
             }
         } catch (Exception e) {
             return new ArrayList<>();
+        }
+    }
+
+    public static int CambiarClave(O_Usuario usuario_old, O_Usuario usuario_new) {
+        String params = null;
+        try {
+            params = "TIPO=usuario&OP=cambiarclave&IDUSUARIO=" + usuario_old.getID() +
+                    "&CLAVEACTUAL=" + URLEncoder.encode(usuario_old.getClave(), "UTF-8") +
+                    "&CLAVENUEVA=" + URLEncoder.encode(usuario_new.getClave(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return -1;
+        }
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
         }
     }
 

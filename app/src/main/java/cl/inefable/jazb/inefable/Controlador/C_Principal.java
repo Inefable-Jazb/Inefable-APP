@@ -169,6 +169,11 @@ public class C_Principal extends AppCompatActivity {
                 destino.putExtra("USUARIO", UsuarioActual);
                 startActivityForResult(destino, C_ModificarPerfil.ActCode);
                 break;
+            case R.id.item_menu_cambiarclave:
+                destino = new Intent(C_Principal.this, C_CambiarClave.class);
+                destino.putExtra("USUARIO", UsuarioActual);
+                startActivityForResult(destino, C_CambiarClave.ActCode);
+                break;
         }
         return true;
     }
@@ -339,6 +344,19 @@ public class C_Principal extends AppCompatActivity {
                     );
                     MostrarAlerta(alerta);
                     CargarListaReservas();
+                }
+                break;
+            case C_CambiarClave.ActCode:
+                if (resultCode == Activity.RESULT_OK){
+                    O_Alerta alerta = new O_Alerta(
+                            O_Alerta.TIPO_CORRECTO,
+                            "Cambio de clave",
+                            "Clave cambiada correctamente",
+                            false,
+                            2000,
+                            O_Alerta.RES_ICO_CORRECTO
+                    );
+                    MostrarAlerta(alerta);
                 }
                 break;
         }

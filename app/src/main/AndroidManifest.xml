@@ -93,5 +93,12 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_FiltrarVehículos"/>
         </activity>
+        <activity android:name=".Controlador.C_CambiarClave"
+                  android:label="Cambio de clave"
+                  android:parentActivityName=".Controlador.C_Principal">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".Controlador.C_Principal"/>
+        </activity>
     </application>
 </manifest>
