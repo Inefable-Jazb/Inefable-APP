@@ -1,5 +1,6 @@
 package cl.inefable.jazb.inefable.Modelo.FUNCIONES;
 
+import android.app.Application;
 import android.util.Log;
 import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
 import cl.inefable.jazb.inefable.Modelo.DATA.*;
@@ -114,6 +115,17 @@ public class F_Usuario {
                     aux.setValorTotal(r.getInt(30));
                     lista.add(aux);
                 }
+                String inicios = "", destinos = "";
+                for (O_Reserva reserva : lista) {
+                    inicios += "|" + reserva.getInicio().getLatitud() + "," + reserva.getInicio().getLongitud();
+                    destinos += "|" + reserva.getLatDes() + "," + reserva.getLongDes();
+                }
+                Log.d("INICIOS", inicios);
+                Log.d("DESTINOS", destinos);
+                //System.exit(0);
+
+                //O_Ruta ruta = Funciones.CalcularDistancia(reservas.get(position));
+                //reservas.get(position).setRuta(ruta);
                 return lista;
             }
         } catch (Exception e) {
