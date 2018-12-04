@@ -16,4 +16,7 @@
     <color name="Info">#607D8B</color>
     <color name="Precaucion">#ffc107</color>
     <color name="Error">#f44336</color>
+    <color name="icon_disbled_color">#bdbdbd</color>
+    <color name="color_marker_end_default">#d50000</color>
+    <color name="color_marker_start_default">#64dd17</color>
 </resources>

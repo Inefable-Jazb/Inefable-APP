@@ -14,7 +14,7 @@
     </style>
     <style name="TextViewelevation5">
         <item name="android:background">@drawable/round_et</item>
-        <item name="android:padding">10dip</item>
+        <item name="android:padding">5dip</item>
         <item name="android:elevation">2dp</item>
     </style>
     <style name="Titulo_1">
