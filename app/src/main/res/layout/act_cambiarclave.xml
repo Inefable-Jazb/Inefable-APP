@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <android.support.design.widget.TextInputLayout android:id="@+id/til_cambiarclave_claveactual"
+                                                        android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginLeft="8dp"
+                                                       android:layout_marginRight="8dp"
+                                                       android:layout_marginTop="8dp"
+                                                       app:errorEnabled="true"
+                                                        app:passwordToggleEnabled="true">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:layout_height="wrap_content"
+                                                             android:hint="Clave actual"
+                                                            android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:id="@+id/til_cambiarclave_nuevaclave"
+                                                        android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginLeft="8dp"
+                                                       android:layout_marginRight="8dp"
+                                                       app:errorEnabled="true"
+                                                       app:passwordToggleEnabled="true">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:layout_height="wrap_content"
+                                                             android:hint="Nueva clave"
+                                                             android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:id="@+id/til_cambiarclave_confirmarclave"
+                                                        android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginLeft="8dp"
+                                                       android:layout_marginRight="8dp"
+                                                       app:errorEnabled="true"
+                                                       app:passwordToggleEnabled="true">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:layout_height="wrap_content"
+                                                             android:hint="Confirmar clave"
+                                                             android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+        <Button android:id="@+id/btn_cambiarclave_confirmar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CAMBIAR CLAVE"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+    </LinearLayout>
+</ScrollView>
+</android.support.constraint.ConstraintLayout>
