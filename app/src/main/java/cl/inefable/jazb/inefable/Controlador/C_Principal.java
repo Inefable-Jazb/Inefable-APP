@@ -1,6 +1,8 @@
 package cl.inefable.jazb.inefable.Controlador;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.TextView;
+import android.widget.Toast;
+import cl.inefable.jazb.inefable.Controlador.Servicios.S_Notificador;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
@@ -54,6 +58,9 @@ public class C_Principal extends AppCompatActivity {
         if (UsuarioActual.getTipo() == 1) {
             Titulo.setText("Camiones Registrados");
             CargarListaCamionesAgregados();
+            if (!isMyServiceRunning(S_Notificador.class)) {
+                //startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID",UsuarioActual.getID()));
+            }
         } else {
             Titulo.setText("Camiones Reservados");
             CargarListaReservas();
@@ -161,12 +168,14 @@ public class C_Principal extends AppCompatActivity {
             case R.id.item_menu_cerrarsesion:
                 Funciones.UsuarioActual = null;
                 destino = new Intent(C_Principal.this, C_Login.class);
+                stopService(new Intent(C_Principal.this, S_Notificador.class));
                 startActivity(destino);
                 finish();
                 break;
             case R.id.item_menu_modificarperfil:
                 destino = new Intent(C_Principal.this, C_ModificarPerfil.class);
                 destino.putExtra("USUARIO", UsuarioActual);
+                stopService(new Intent(C_Principal.this, S_Notificador.class));
                 startActivityForResult(destino, C_ModificarPerfil.ActCode);
                 break;
             case R.id.item_menu_cambiarclave:
@@ -277,11 +286,17 @@ public class C_Principal extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                O_Reserva reserva = (O_Reserva) v.getTag();
-                O_Vehiculo vehiculo = reserva.getVehiculo();
-                Intent destino = new Intent(C_Principal.this, C_DetalleVehiculo.class);
-                destino.putExtra("VEHICULO", vehiculo);
-                startActivityForResult(destino, C_DetalleVehiculo.ActCode);
+                if (UsuarioActual.getTipo() != 1) {
+                    O_Reserva reserva = (O_Reserva) v.getTag();
+                    O_Vehiculo vehiculo = reserva.getVehiculo();
+                    Toast.makeText(C_Principal.this, "Estado de la reserva: " + reserva.getEstado().getNombre(), Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    O_Vehiculo vehiculo = (O_Vehiculo) v.getTag();
+                    Intent destino = new Intent(C_Principal.this, C_DetalleVehiculo.class);
+                    destino.putExtra("VEHICULO", vehiculo);
+                    startActivityForResult(destino, C_DetalleVehiculo.ActCode);
+                }
             }
         };
     }
@@ -347,7 +362,7 @@ public class C_Principal extends AppCompatActivity {
                 }
                 break;
             case C_CambiarClave.ActCode:
-                if (resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     O_Alerta alerta = new O_Alerta(
                             O_Alerta.TIPO_CORRECTO,
                             "Cambio de clave",
@@ -360,5 +375,15 @@ public class C_Principal extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -20,7 +20,7 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".Controlador.C_Login"
-                android:label="Inefavle">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,14 +29,14 @@
         </activity>
         <activity
                 android:name=".Controlador.C_Signin"
-                android:label="Inefable acc creator .0001.1">
+                android:label="@string/app_name">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_Login"/>
         </activity>
         <activity
                 android:name=".Controlador.C_AgregarVehiculo"
-                android:label="inefavle car creator ....1..01"
+                android:label="@string/app_name"
                 android:parentActivityName=".Controlador.C_Principal">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -44,14 +44,14 @@
         </activity>
         <activity
                 android:name=".Controlador.C_DetalleVehiculo"
-                android:label="inefavle car detial biewer">
+                android:label="@string/app_name">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_Principal"/>
         </activity>
         <activity
                 android:name=".Controlador.C_ModificarPerfil"
-                android:label="inefavle profail editer">
+                android:label="@string/app_name">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_Principal"/>
@@ -72,7 +72,7 @@
 
         <activity
                 android:name=".Controlador.C_Mapa_DefinirRuta"
-                android:label="inefalbe map position shoiser"
+                android:label="@string/app_name"
                 android:theme="@style/AppTheme"
                 android:parentActivityName=".Controlador.C_Principal">
             <meta-data
@@ -80,14 +80,14 @@
                     android:value=".Controlador.C_Principal"/>
         </activity>
         <activity android:name=".Controlador.C_FiltrarVehículos"
-                  android:label="inefable car shoicer"
+                  android:label="@string/app_name"
                   android:parentActivityName=".Controlador.C_Mapa_DefinirRuta">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_Mapa_DefinirRuta"/>
         </activity>
         <activity android:name=".Controlador.C_DetalleReserva"
-                  android:label="inefable car shoicer"
+                  android:label="@string/app_name"
                   android:parentActivityName=".Controlador.C_FiltrarVehículos">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -100,5 +100,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_Principal"/>
         </activity>
+        <service android:name=".Controlador.Servicios.S_Notificador"/>
     </application>
 </manifest>

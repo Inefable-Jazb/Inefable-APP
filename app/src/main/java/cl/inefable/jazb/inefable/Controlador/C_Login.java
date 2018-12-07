@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import cl.inefable.jazb.inefable.Controlador.Servicios.S_Notificador;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
@@ -16,7 +17,6 @@ import cl.inefable.jazb.inefable.R;
 import com.tapadoo.alerter.Alerter;
 
 public class C_Login extends AppCompatActivity {
-
     private Button Autenticar, CrearCuenta;
     private TextInputLayout Usuario, Clave;
     private RadioGroup TipoUsuario;
@@ -93,26 +93,25 @@ public class C_Login extends AppCompatActivity {
                         String usuarioValor = Usuario.getEditText().getText().toString().trim().replace(".", "");
                         String claveValor = Clave.getEditText().getText().toString().trim();
                         ActivarControles(false);
-
                         if (ValidarUsuario(usuarioValor) && ValidarClave(claveValor)) {
                             if (TipoUsuario.getCheckedRadioButtonId() == R.id.rb_login_conductor) {
                                 usuarioValor = Funciones.formatearRUT(usuarioValor);
                             }
-
                             try {
                                 F_Usuario func_Usuario = new F_Usuario();
-                                O_Usuario usuariobd, usuarioactual;
+                                O_Usuario usuarioBD, usuarioactual;
                                 usuarioactual = new O_Usuario(usuarioValor, claveValor);
-                                usuariobd = func_Usuario.TraerDatosLogin(usuarioactual);
-                                if (usuariobd != null) {
-                                    int info = usuariobd.getIDInfo();
+                                usuarioBD = func_Usuario.TraerDatosLogin(usuarioactual);
+                                Log.d("CONTINUARLOGIN", "CONTINUAR");
+                                if (usuarioBD != null) {
+                                    int info = usuarioBD.getIDInfo();
                                     Intent destino;
                                     if (info == 0) {
                                         destino = new Intent(C_Login.this, C_FirstLogin.class);
                                     } else {
                                         destino = new Intent(C_Login.this, C_Principal.class);
                                     }
-                                    destino.putExtra("IDUSUARIO", usuariobd.getID());
+                                    destino.putExtra("IDUSUARIO", usuarioBD.getID());
                                     startActivity(destino);
                                     finish();
                                 } else {

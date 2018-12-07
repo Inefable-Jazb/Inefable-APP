@@ -56,11 +56,13 @@ public class C_DetalleVehiculo extends AppCompatActivity {
         Propietario = findViewById(R.id.tv_detallevehiculo_propietario);
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.menu_detallevehiculo, menu);
         return true;
     }
+    */
 
 }

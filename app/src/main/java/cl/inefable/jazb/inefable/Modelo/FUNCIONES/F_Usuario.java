@@ -1,6 +1,5 @@
 package cl.inefable.jazb.inefable.Modelo.FUNCIONES;
 
-import android.app.Application;
 import android.util.Log;
 import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
 import cl.inefable.jazb.inefable.Modelo.DATA.*;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class F_Usuario {
+
     public static int ModificarDatosPersonales(O_Usuario usuario) {
         String params = null;
         try {
@@ -32,7 +32,7 @@ public class F_Usuario {
             return -1;
         }
     }
-    
+
     public static int AgregarReserva(O_Reserva reserva) {
         try {
             String params = "TIPO=reserva&" +

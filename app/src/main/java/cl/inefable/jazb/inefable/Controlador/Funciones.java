@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Funciones {
+public class Funciones {
     public static O_Usuario UsuarioActual;
 
     private static String regexUsuarioMIN4 = "^[a-zA-Z\\d\\-ñ]{4,}$";
@@ -256,6 +256,53 @@ class Funciones {
         return p1;
     }
 
+
+    public static String descargarURL(URL url) throws IOException {
+        InputStream stream = null;
+        HttpsURLConnection connection = null;
+        String result = null;
+        try {
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setReadTimeout(3000);
+            connection.setConnectTimeout(3000);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpsURLConnection.HTTP_OK) {
+                throw new IOException("HTTP error code: " + responseCode);
+            }
+            stream = connection.getInputStream();
+            if (stream != null) {
+                result = leerRespuesta(stream, 50000);
+            }
+        } finally {
+            // Close Stream and disconnect HTTPS connection.
+            if (stream != null) {
+                stream.close();
+            }
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return result;
+    }
+
+    public static String leerRespuesta(InputStream stream, int maxLengthResponse) throws IOException, UnsupportedEncodingException {
+        Reader r = null;
+        r = new InputStreamReader(stream, "UTF-8");
+        char[] rawBuffer = new char[maxLengthResponse];
+        int tamañoLectura;
+        StringBuffer sb = new StringBuffer();
+        while (((tamañoLectura = r.read(rawBuffer)) != -1) && maxLengthResponse > 0) {
+            if (tamañoLectura > maxLengthResponse) {
+                tamañoLectura = maxLengthResponse;
+            }
+            sb.append(rawBuffer, 0, tamañoLectura);
+            maxLengthResponse -= tamañoLectura;
+        }
+        return sb.toString();
+    }
 
 
     private static class MatrixAsync extends AsyncTask<O_Reserva, Integer, MatrixAsync.RespuetaHTTP> {

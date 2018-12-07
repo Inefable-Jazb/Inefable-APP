@@ -3,13 +3,13 @@ package cl.inefable.jazb.inefable.Modelo.CONN;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 public class Enlace extends AsyncTask<String, Integer, Enlace.RespuetaHTTP> {
-    public static String IpActual = "http://inefable.cl/BD/API.php?";
+    public static String IpActual = "https://inefable.cl/BD/API.php?";
 
     public class RespuetaHTTP {
         private String Respuesta;
@@ -57,34 +57,34 @@ public class Enlace extends AsyncTask<String, Integer, Enlace.RespuetaHTTP> {
     }
 
     private String descargarURL(URL url) throws IOException {
-        InputStream is = null;
-        HttpURLConnection coneccion = null;
-        String respuesta = null;
-
+        InputStream stream = null;
+        HttpsURLConnection connection = null;
+        String result = null;
         try {
-            coneccion = (HttpURLConnection) url.openConnection();
-            coneccion.setReadTimeout(3000);
-            coneccion.setConnectTimeout(3000);
-            coneccion.setRequestMethod("GET");
-            coneccion.setDoInput(true);
-            coneccion.connect();
-            int codigoRespuesta = coneccion.getResponseCode();
-            if (codigoRespuesta != HttpURLConnection.HTTP_OK) {
-                throw new IOException("ERROR HTTP CÓDIGO: " + codigoRespuesta);
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setReadTimeout(3000);
+            connection.setConnectTimeout(3000);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpsURLConnection.HTTP_OK) {
+                throw new IOException("HTTP error code: " + responseCode);
             }
-            is = coneccion.getInputStream();
-            if (is != null) {
-                respuesta = leerRespuesta(is, 100000);
+            stream = connection.getInputStream();
+            if (stream != null) {
+                result = leerRespuesta(stream, 50000);
             }
         } finally {
-            if (is != null) {
-                is.close();
+            // Close Stream and disconnect HTTPS connection.
+            if (stream != null) {
+                stream.close();
             }
-            if (coneccion != null) {
-                coneccion.disconnect();
+            if (connection != null) {
+                connection.disconnect();
             }
         }
-        return respuesta;
+        return result;
     }
 
     private String leerRespuesta(InputStream stream, int maxLengthResponse) throws IOException, UnsupportedEncodingException {
