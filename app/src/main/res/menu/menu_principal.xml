@@ -7,4 +7,6 @@
           android:id="@+id/item_menu_modificarperfil" app:showAsAction="withText"/>
     <item android:title="Cambiar clave" android:icon="@drawable/ic_ico_edit"
           android:id="@+id/item_menu_cambiarclave" app:showAsAction="withText"/>
+    <item android:title="Actualizar"
+          android:id="@+id/item_menu_actualizarlista" app:showAsAction="withText"/>
 </menu>

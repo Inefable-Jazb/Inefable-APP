@@ -16,12 +16,12 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
-            android:id="@+id/tv_listadoconductor_cargamax"
+            android:id="@+id/tv_listadoconductor_estado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_left_common"
             android:layout_marginTop="@dimen/margin_left_common"
-            android:text="Carga Max: "
+            android:text="Estado: "
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_listaconductor_patente"/>
 
@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/margin_left_common"
             android:text="Tipo Camion: "
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_listadoconductor_cargamax"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_listadoconductor_estado"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -85,8 +85,8 @@ public class C_FiltrarVehículos extends AppCompatActivity {
     private void CargarVehiculosFiltrados(String filtros) {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         ListaFiltrada.setLayoutManager(llm);
-
-        Lista_Filtrada lista = new Lista_Filtrada(F_Vehiculo.FiltrarVehiculos(filtros, Funciones.UsuarioActual.getID()));
+        O_Reserva res = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
+        Lista_Filtrada lista = new Lista_Filtrada(F_Vehiculo.FiltrarVehiculos(filtros, res.getUsuario().getID()));
         if (lista.getItemCount() == 0) {
             O_Alerta alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,
@@ -193,8 +193,9 @@ public class C_FiltrarVehículos extends AppCompatActivity {
                 O_Reserva reserva;
                 reserva = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
                 if (reserva == null) {
-                    reserva = new O_Reserva();
-                    reserva.setUsuario(Funciones.UsuarioActual);
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
+                    return;
                 }
                 reserva.setVehiculo(vehiculo);
                 Intent destino = new Intent(C_FiltrarVehículos.this, C_DetalleReserva.class);

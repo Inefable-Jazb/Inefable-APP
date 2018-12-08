@@ -11,6 +11,10 @@ public class O_Direccion implements Serializable {
     private double Latitud, Longitud;
     private int IDUsuario;
 
+    public String getNombre() {
+        return Nombre;
+    }
+
     public O_Direccion(String nombre, double latitud, double longitud, int IDUsuario) {
         Nombre = nombre;
         Latitud = latitud;

@@ -21,7 +21,6 @@ import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Vehiculo;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
-import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
 import cl.inefable.jazb.inefable.R;
 import com.tapadoo.alerter.Alerter;
 
@@ -59,7 +58,7 @@ public class C_Principal extends AppCompatActivity {
             Titulo.setText("Camiones Registrados");
             CargarListaCamionesAgregados();
             if (!isMyServiceRunning(S_Notificador.class)) {
-                //startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID",UsuarioActual.getID()));
+                //startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID", UsuarioActual.getID()));
             }
         } else {
             Titulo.setText("Camiones Reservados");
@@ -175,13 +174,19 @@ public class C_Principal extends AppCompatActivity {
             case R.id.item_menu_modificarperfil:
                 destino = new Intent(C_Principal.this, C_ModificarPerfil.class);
                 destino.putExtra("USUARIO", UsuarioActual);
-                stopService(new Intent(C_Principal.this, S_Notificador.class));
                 startActivityForResult(destino, C_ModificarPerfil.ActCode);
                 break;
             case R.id.item_menu_cambiarclave:
                 destino = new Intent(C_Principal.this, C_CambiarClave.class);
                 destino.putExtra("USUARIO", UsuarioActual);
                 startActivityForResult(destino, C_CambiarClave.ActCode);
+                break;
+            case R.id.item_menu_actualizarlista:
+                if (UsuarioActual.getTipo() == 1) {
+                    CargarListaCamionesAgregados();
+                } else {
+                    CargarListaReservas();
+                }
                 break;
         }
         return true;
@@ -207,8 +212,9 @@ public class C_Principal extends AppCompatActivity {
             holder.asd.setTag(vehiculos.get(position));
             holder.asd.setOnClickListener(rv_ItemClick());
             holder.Patente.setText(vehiculos.get(position).getPatente());
-            holder.CargaMax.setText("Carga Máx.: " + vehiculos.get(position).getCargaMax() + "Kg.");
-            holder.Tipo.setText("Marca: " + vehiculos.get(position).getTipo());
+            String estado = (vehiculos.get(position).getDisponibilidad() == 0) ? "No Disponible" : "Disponible";
+            holder.Estado.setText("Estado: " + estado);
+            holder.Tipo.setText("Tipo: " + vehiculos.get(position).getTipo());
         }
 
         @Override
@@ -219,14 +225,14 @@ public class C_Principal extends AppCompatActivity {
         public class VehicleViewHolder extends RecyclerView.ViewHolder {
             View asd;
             RecyclerView lista;
-            TextView Patente, CargaMax, Tipo;
+            TextView Patente, Estado, Tipo;
 
             VehicleViewHolder(View itemView) {
                 super(itemView);
                 asd = itemView;
                 lista = itemView.findViewById(R.id.rv_principal_listavehiculos);
                 Patente = itemView.findViewById(R.id.tv_listaconductor_patente);
-                CargaMax = itemView.findViewById(R.id.tv_listadoconductor_cargamax);
+                Estado = itemView.findViewById(R.id.tv_listadoconductor_estado);
                 Tipo = itemView.findViewById(R.id.tv_listadoconductor_tipo);
             }
         }
@@ -252,12 +258,13 @@ public class C_Principal extends AppCompatActivity {
             holder.asd.setTag(reservas.get(position));
             holder.asd.setOnClickListener(rv_ItemClick());
             holder.Patente.setText(reservas.get(position).getVehiculo().getPatente());
-            holder.Estado.setText("Estado: " + reservas.get(position).getEstado().getNombre());
+            holder.Estado.setText("Estado Reserva: " + reservas.get(position).getEstado().getNombre());
 
-            O_Ruta ruta = Funciones.CalcularDistancia(reservas.get(position));
-            reservas.get(position).setRuta(ruta);
-            holder.Desde.setText("Desde: " + reservas.get(position).getRuta().getDireccionInicio());
-            holder.Hasta.setText("Hasta: " + reservas.get(position).getRuta().getDireccionDestino());
+            //O_Ruta ruta = Funciones.CalcularDistancia(reservas.get(position));
+            //reservas.get(position).setRuta(ruta);
+            String dueño = reservas.get(position).getVehiculo().getDueño().getNombres() + " " + reservas.get(position).getVehiculo().getDueño().getApellidos();
+            holder.Dueño.setText("Dueño del vehículo: " + dueño);
+            holder.Desde.setText("Dirección de Inicio: " + reservas.get(position).getDireccionInicio());
         }
 
         @Override
@@ -268,16 +275,16 @@ public class C_Principal extends AppCompatActivity {
         public class VehicleViewHolder extends RecyclerView.ViewHolder {
             View asd;
             RecyclerView lista;
-            TextView Patente, Estado, Desde, Hasta;
+            TextView Patente, Estado, Dueño, Desde;
 
             VehicleViewHolder(View itemView) {
                 super(itemView);
                 asd = itemView;
                 lista = itemView.findViewById(R.id.rv_principal_listavehiculos);
-                Patente = itemView.findViewById(R.id.tv_listavehiculoscliente_Patente);
-                Estado = itemView.findViewById(R.id.tv_listavehiculoscliente_Estdo);
-                Desde = itemView.findViewById(R.id.tv_listavehiculoscliente_Inicio);
-                Hasta = itemView.findViewById(R.id.tv_listavehiculoscliente_Destino);
+                Patente = itemView.findViewById(R.id.tv_listavehiculoscliente_patente);
+                Estado = itemView.findViewById(R.id.tv_listavehiculoscliente_estado);
+                Dueño = itemView.findViewById(R.id.tv_listavehiculoscliente_dueño);
+                Desde = itemView.findViewById(R.id.tv_listavehiculoscliente_desde);
             }
         }
     }

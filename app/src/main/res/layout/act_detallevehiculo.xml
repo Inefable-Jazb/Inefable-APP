@@ -20,6 +20,13 @@
                     android:text="Vehículo: AB CD-12"
                     style="@style/Titulo_3"/>
             <TextView
+                    android:id="@+id/tv_detallevehiculo_estado"
+                    android:text="Estado: "
+                    android:layout_gravity="center"
+                    style="@style/DetalleItem.Titulo"
+                    android:textColor="@color/Correcto"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Valoración promedio"
@@ -32,6 +39,9 @@
                     style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
                     android:id="@+id/rb_detallevehiculo_valoracionpromedio"
             />
+            <TextView android:layout_width="wrap_content" android:layout_gravity="center"
+                      android:layout_height="wrap_content" android:text="Datos vehículo"
+                      style="@style/DetalleItem.Titulo"/>
             <TextView
                     android:id="@+id/tv_detallevehiculo_marca"
                     style="@style/DetalleCamionTextoInformacion"
@@ -57,17 +67,35 @@
                     android:layout_height="wrap_content"
                     android:text="Tipo de vehículo:"/>
             <TextView
-                    android:id="@+id/tv_detallevehiculo_rendimiento"
-                    style="@style/DetalleCamionTextoInformacion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rendimiento:"/>
-            <TextView
                     android:id="@+id/tv_detallevehiculo_propietario"
                     style="@style/DetalleCamionTextoInformacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dueño:"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_margin="4dp"
+            />
+            <TextView android:layout_width="wrap_content" android:layout_gravity="center"
+                      android:layout_height="wrap_content" android:text="Valor del vehículo"
+                      style="@style/DetalleItem.Titulo"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:id="@+id/tv_detallevehiculo_valor" style="@style/DetalleCamionTextoInformacion"
+                          android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                          android:text="Valor Base:" android:textStyle="italic|bold"/>
+                <TextView android:id="@+id/tv_detallevehiculo_valorbase" style="@style/DetalleCamionTextoInformacion"
+                          android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                          android:text="Valor por KM:" android:textStyle="italic|bold"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_margin="4dp"
+            />
             <TextView
                     style="@style/DetalleCamionTextoInformacion"
                     android:layout_width="wrap_content"

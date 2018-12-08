@@ -263,8 +263,8 @@ public class Funciones {
         String result = null;
         try {
             connection = (HttpsURLConnection) url.openConnection();
-            connection.setReadTimeout(3000);
-            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(300000);
+            connection.setConnectTimeout(300000);
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.connect();
@@ -333,8 +333,8 @@ public class Funciones {
             RespuetaHTTP respuesta = null;
             if (!isCancelled() || Url != null && Url.length > 0) {
                 String BaseIP = "https://maps.googleapis.com/maps/api/distancematrix/json";
-                String inicio = "?origins=" + Url[0].getInicio().getLatitud() + "," + Url[0].getInicio().getLongitud();
-                String destino = "&destinations=" + Url[0].getLatDes() + "," + Url[0].getLongDes();
+                String inicio = "?origins=" + Url[0].getLatInicio() + "," + Url[0].getLongInicio();
+                String destino = "&destinations=" + Url[0].getLatDestino() + "," + Url[0].getLongDestino();
                 String googleKey = "&key=AIzaSyDtiJomi-vfspYmxWGLO0cISVMRZaDQYGE";
                 String full = BaseIP + inicio + destino + googleKey;
                 Log.d("Starting Download...", "...Connecting to " + full);

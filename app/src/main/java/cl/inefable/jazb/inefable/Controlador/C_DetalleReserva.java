@@ -99,19 +99,19 @@ public class C_DetalleReserva extends AppCompatActivity {
             dims = volumen;
             msj = dims + " cm³";
         }
-        int costoTotal = vehiculo.getValorBase() + (vehiculo.getValor() * (reserva.getRuta().getDistanciaReal() / 1000));
+        int costoTotal = vehiculo.getValorBase() + (vehiculo.getValor() * (reserva.getDistancia() / 1000));
         reserva.setValorTotal(costoTotal);
         Patente.setText("Patente: " + vehiculo.getPatente());
         Marca.setText("Marca: " + vehiculo.getMarca());
         Volumen.setText("Volumen (alto, largo, ancho): " + msj + " (" + vehiculo.getAltura() + ", " + vehiculo.getLargo() + ", " + vehiculo.getAncho() + ")");
         CargaMax.setText("Carga Máx.: " + vehiculo.getCargaMax() + " Kg.");
-        Tipo.setText("Marca: " + vehiculo.getTipo());
+        Tipo.setText("Tipo: " + vehiculo.getTipo());
         Valor.setText("Valor estimado: $" + vehiculo.getValor() + "/km.");
         ValorBase.setText("Valor Base: $" + vehiculo.getValorBase());
         Propietario.setText("Propietario: " + vehiculo.getPropietario());
-        DirInicio.setText("Dirección de Inicio: " + reserva.getRuta().getDireccionInicio() + " COOR: (" + reserva.getInicio().getLatitud() + " ; " + reserva.getInicio().getLongitud() + ")");
-        DirDestino.setText("Dirección de destino: " + reserva.getRuta().getDireccionDestino() + " COOR: (" + reserva.getLatDes() + " ; " + reserva.getLongDes() + ")");
-        Distancia.setText("Distancia: " + reserva.getRuta().getDistanciaAprox() + " (" + reserva.getRuta().getDistanciaReal() + " m)");
+        DirInicio.setText("Dirección de Inicio: " + reserva.getDireccionInicio());
+        DirDestino.setText("Dirección de destino: " + reserva.getDireccionDestino());
+        Distancia.setText("Distancia: " + reserva.getDistancia() + " m");
         CostoTotal.setText("Valor estimado del servicio: $" + costoTotal);
     }
 

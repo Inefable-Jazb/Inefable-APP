@@ -150,20 +150,21 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
                             MostrarAlerta(alerta);
                             break;
                         }
-                        O_Direccion dirInicio = AgregarDireccion(inicio);
 
                         O_Reserva reserva = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
                         if (reserva == null) {
                             reserva = new O_Reserva();
                             reserva.setUsuario(Funciones.UsuarioActual);
                         }
-                        reserva.setLatDes(destino.getPosition().latitude);
-                        reserva.setLongDes(destino.getPosition().longitude);
-                        reserva.setCalleInicio(DirInicio.getText().toString().trim());
-                        reserva.setCalleDestino(DirDestino.getText().toString().trim());
-                        reserva.setInicio(dirInicio);
+                        reserva.setLatDestino(destino.getPosition().latitude);
+                        reserva.setLongDestino(destino.getPosition().longitude);
+                        reserva.setLatInicio(inicio.getPosition().latitude);
+                        reserva.setLongInicio(inicio.getPosition().longitude);
                         O_Ruta ruta = Funciones.CalcularDistancia(reserva);
-                        reserva.setRuta(ruta);
+                        reserva.setDireccionInicio(ruta.getDireccionInicio());
+                        reserva.setDireccionDestino(ruta.getDireccionDestino());
+                        reserva.setDuracion(ruta.getDuracionReal());
+                        reserva.setDistancia(ruta.getDistanciaReal());
                         Intent actDestino = new Intent(C_Mapa_DefinirRuta.this, C_FiltrarVehículos.class);
                         actDestino.putExtra("RESERVA", reserva);
                         startActivityForResult(actDestino, C_FiltrarVehículos.ActCode);
@@ -259,7 +260,7 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         } else {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -386,9 +387,10 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
         if (inicio != null && destino != null) {
             O_Direccion oDireccion = AgregarDireccion(inicio);
             O_Reserva reserva = new O_Reserva();
-            reserva.setInicio(oDireccion);
-            reserva.setLongDes(destino.getPosition().longitude);
-            reserva.setLatDes(destino.getPosition().latitude);
+            reserva.setLatInicio(oDireccion.getLatitud());
+            reserva.setLongInicio(oDireccion.getLongitud());
+            reserva.setLatDestino(destino.getPosition().latitude);
+            reserva.setLongDestino(destino.getPosition().longitude);
             O_Ruta ruta = Funciones.CalcularDistancia(reserva);
             if (ruta == null) {
                 O_Alerta alerta = new O_Alerta(

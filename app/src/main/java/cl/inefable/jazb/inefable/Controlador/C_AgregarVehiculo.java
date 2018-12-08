@@ -23,7 +23,7 @@ public class C_AgregarVehiculo extends AppCompatActivity {
     public static final int ActCode = 777;
     private int Usuario;
 
-    private TextInputLayout Patente, Marca, Altura, Largo, Ancho, CargaMax, Rendimiento;
+    private TextInputLayout Patente, Marca, Altura, Largo, Ancho, CargaMax, Valor, ValorBase;
 
     private TextView Volumen;
 
@@ -48,7 +48,6 @@ public class C_AgregarVehiculo extends AppCompatActivity {
         Ancho.getEditText().setOnFocusChangeListener(et_FocusChange("dims"));
         Largo.getEditText().setOnFocusChangeListener(et_FocusChange("dims"));
         CargaMax.getEditText().setOnFocusChangeListener(et_FocusChange("cargamax"));
-        Rendimiento.getEditText().setOnFocusChangeListener(et_FocusChange("rendimiento"));
 
         Guardar.setOnClickListener(btn_Click());
     }
@@ -59,18 +58,21 @@ public class C_AgregarVehiculo extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btn_agregarvehiculo_guardar:
-                        String patente, marca, altura, ancho, largo, cargamax, rendimiento;
+                        String patente, marca, altura, ancho, largo, cargamax, valor, valorbase;
                         patente = Patente.getEditText().getText().toString().trim();
                         marca = Marca.getEditText().getText().toString().trim();
                         altura = Altura.getEditText().getText().toString().trim();
                         ancho = Ancho.getEditText().getText().toString().trim();
                         largo = Largo.getEditText().getText().toString().trim();
                         cargamax = CargaMax.getEditText().getText().toString().trim();
-                        rendimiento = Rendimiento.getEditText().getText().toString().trim();
+                        valor = Valor.getEditText().getText().toString().trim();
+                        valorbase = ValorBase.getEditText().getText().toString().trim();
+
 
                         O_TipoVehiculo tipo = (O_TipoVehiculo) Tipo.getSelectedItem();
 
-                        if (ValidarPatente() && ValidarDimensiones() && ValidarMarca() && cargamax.length() > 0 && rendimiento.length() > 0) {
+
+                        if (ValidarPatente() && ValidarDimensiones() && ValidarMarca() && cargamax.length() > 0 && valor.length() > 0 && valorbase.length() > 0) {
                             O_Alerta alerta;
                             O_Vehiculo vehiculo = new O_Vehiculo(
                                     patente,
@@ -80,8 +82,9 @@ public class C_AgregarVehiculo extends AppCompatActivity {
                                     Double.parseDouble(ancho),
                                     Integer.parseInt(cargamax),
                                     tipo.getID() + "",
-                                    Integer.parseInt(rendimiento),
-                                    Usuario
+                                    Integer.parseInt(valor),
+                                    Usuario,
+                                    Integer.parseInt(valorbase)
                             );
                             if (F_Vehiculo.Crear(vehiculo) == 1) {
                                 setResult(Activity.RESULT_OK);
@@ -134,9 +137,6 @@ public class C_AgregarVehiculo extends AppCompatActivity {
                                 ValidarDimensiones();
                                 break;
                             case "cargamax":
-
-                                break;
-                            case "rendimiento":
 
                                 break;
                         }
@@ -295,7 +295,8 @@ public class C_AgregarVehiculo extends AppCompatActivity {
         Largo = findViewById(R.id.til_agregarvehiculo_largo);
         Ancho = findViewById(R.id.til_agregarvehiculo_ancho);
         CargaMax = findViewById(R.id.til_agregarvehiculo_cargamax);
-        Rendimiento = findViewById(R.id.til_agregarvehiculo_rendimiento);
+        Valor = findViewById(R.id.til_agregarvehiculo_valor);
+        ValorBase = findViewById(R.id.til_agregarvehiculo_valorbase);
 
         Volumen = findViewById(R.id.tv_agregarvehiculo_volumen);
 

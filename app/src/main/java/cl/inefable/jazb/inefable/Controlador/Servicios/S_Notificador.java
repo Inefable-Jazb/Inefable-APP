@@ -26,8 +26,8 @@ public class S_Notificador extends Service {
 
     @Override
     public void onCreate() {
+        //Notificaciones_Conductor();
         super.onCreate();
-        Notificaciones_Conductor();
     }
 
     @Override
@@ -40,14 +40,14 @@ public class S_Notificador extends Service {
     }
 
     private void Notificaciones_Conductor() {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         Notification summaryNotification = new Notification.Builder(this)
-                .setContentTitle("Notificaciones Inefable")
+                .setContentTitle("Inefable")
+                .setContentText("¡Tienes Nuevas Reservas!")
                 .setSmallIcon(R.drawable.ic_exchange_icon)
                 .setGroup("RESERVAS")
                 .setGroupSummary(true)
                 .build();
-        NotificationManagerCompat notificationManager =
-                NotificationManagerCompat.from(this);
         notificationManager.notify(NOTIFICACIONES_CONDUCTOR, summaryNotification);
     }
 
@@ -83,7 +83,7 @@ public class S_Notificador extends Service {
         @Override
         protected String doInBackground(String... Usuario) {
             reservas = new ArrayList<>();
-            publishProgress(url + Usuario[0]);
+            Log.d("CHECKESSSDSADSD", url + Usuario[0]);
             while (true) {
                 if (isCancelled()) {
                     Log.d("CANCELADO PETE", "");
@@ -106,22 +106,20 @@ public class S_Notificador extends Service {
                             throw new IOException("Sin respuesta desde " + fullURL);
                         }
                     } catch (Exception e) {
+                        e.printStackTrace();
+                        return "";
                     }
                     Thread.sleep(50);
                 } catch (Exception e) {
+                    e.printStackTrace();
+                    return "";
                 }
             }
         }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            Log.d("URLSERVICE", values[0]);
-        }
-
         private void MandarNotificacionNuevaReservaSolicitada(String i, int ID) {
             int finalID = ID + NOTIFICACIONES_CONDUCTOR;
 
+            Notificaciones_Conductor();
             Notification.Builder builder = new Notification.Builder(S_Notificador.this);
             builder.setSmallIcon(R.drawable.ic_exchange_icon);
             builder.setGroup("RESERVAS");

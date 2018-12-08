@@ -94,7 +94,7 @@ public class O_Vehiculo implements Serializable {
         Disponibilidad = disponibilidad;
     }
 
-    public O_Vehiculo(String patente, String marca, double altura, double largo, double ancho, int cargaMax, String tipo, int valor, int propietario) {
+    public O_Vehiculo(String patente, String marca, double altura, double largo, double ancho, int cargaMax, String tipo, int valor, int propietario, int valorbase) {
         Patente = patente;
         Marca = marca;
         Altura = altura;
@@ -104,6 +104,7 @@ public class O_Vehiculo implements Serializable {
         Tipo = tipo;
         Valor = valor;
         Propietario = propietario;
+        ValorBase = valorbase;
     }
 
     public int getID() {

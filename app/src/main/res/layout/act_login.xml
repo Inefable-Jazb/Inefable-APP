@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Usuario"
-                android:tag="Usuario" android:text="Jazb"/>
+                android:tag="Usuario" android:text=""/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
             android:id="@+id/til_login_clave"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="Clave"
-                android:tag="Clave" android:text="Metanoch4"/>
+                android:tag="Clave" android:text=""/>
     </android.support.design.widget.TextInputLayout>
     <LinearLayout android:visibility="gone" android:layout_marginVertical="4dp" android:orientation="horizontal"
                   android:layout_width="wrap_content" android:layout_height="wrap_content"

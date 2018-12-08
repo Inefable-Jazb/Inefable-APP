@@ -1,85 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
-            android:text="Primeros Pasos"
-            style="@style/Titulo_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="¡Es momento de te presentes!"
-              style="@style/Requisitos_Label"/>
-    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                   android:id="@+id/til_firstlogin_nombres"
-                                                   android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
-                                                         android:hint="Nombre(s)"
-                                                         android:layout_height="wrap_content"
-                                                         android:inputType="textCapWords"/>
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                   android:id="@+id/til_firstlogin_apellidos"
-                                                   android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
-                                                         android:hint="Apellidos"
-                                                         android:layout_height="wrap_content"
-                                                         android:inputType="textCapWords"/>
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                   android:id="@+id/til_firstlogin_correo"
-                                                   android:layout_height="wrap_content">
-        <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
-                                                         android:hint="Correo"
-                                                         android:layout_height="wrap_content"
-                                                         android:inputType="textEmailAddress"/>
-    </android.support.design.widget.TextInputLayout>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="El correo debe respetar el siguiente formato: 'Usuario@dominio'"
-              android:layout_marginHorizontal="4dp" style="@style/Base.TextAppearance.AppCompat.Caption"
-              android:textStyle="italic"/>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="País"
-              style="@style/Base.TextAppearance.AppCompat.Caption" android:layout_marginHorizontal="4dp"/>
-    <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
-             android:id="@+id/spn_firstlogin_pais">
-    </Spinner>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="4dp">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
         <TextView
-                android:id="@+id/tv_firstlogin_prefijo"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="+56"/>
+                android:text="Primeros Pasos"
+                style="@style/Titulo_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="¡Es momento de te presentes!"
+                  style="@style/Requisitos_Label"/>
         <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                       android:id="@+id/til_firstlogin_telefono"
+                                                       android:id="@+id/til_firstlogin_nombres"
                                                        android:layout_height="wrap_content">
             <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
-                                                             android:hint="Teléfono"
+                                                             android:hint="Nombre(s)"
                                                              android:layout_height="wrap_content"
-                                                             android:inputType="number"/>
+                                                             android:inputType="textCapWords"/>
         </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                       android:id="@+id/til_firstlogin_apellidos"
+                                                       android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:hint="Apellidos"
+                                                             android:layout_height="wrap_content"
+                                                             android:inputType="textCapWords"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                       android:id="@+id/til_firstlogin_correo"
+                                                       android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                             android:hint="Correo"
+                                                             android:layout_height="wrap_content"
+                                                             android:inputType="textEmailAddress"/>
+        </android.support.design.widget.TextInputLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="El correo debe respetar el siguiente formato: 'Usuario@dominio'"
+                  android:layout_marginHorizontal="4dp" style="@style/Base.TextAppearance.AppCompat.Caption"
+                  android:textStyle="italic"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="País"
+                  style="@style/Base.TextAppearance.AppCompat.Caption" android:layout_marginHorizontal="4dp"/>
+        <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:id="@+id/spn_firstlogin_pais">
+        </Spinner>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="4dp">
+            <TextView
+                    android:id="@+id/tv_firstlogin_prefijo"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="+56"/>
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                           android:id="@+id/til_firstlogin_telefono"
+                                                           android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText android:layout_width="match_parent"
+                                                                 android:hint="Teléfono"
+                                                                 android:layout_height="wrap_content"
+                                                                 android:inputType="number"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="El número de teléfono debe contener 9 dígitos." android:layout_marginHorizontal="4dp"
+                  style="@style/Base.TextAppearance.AppCompat.Caption" android:textStyle="italic"/>
+        <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn_firstlogin_guardar"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Guardar Datos" android:layout_gravity="center"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+        />
+        <Button android:id="@+id/btn_firstlogin_cerrarsesion"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Cerrar Sesión" android:layout_gravity="center"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        />
     </LinearLayout>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="El número de teléfono debe contener 9 dígitos." android:layout_marginHorizontal="4dp"
-              style="@style/Base.TextAppearance.AppCompat.Caption" android:textStyle="italic"/>
-    <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:layout_margin="4dp"/>
-    <Button android:id="@+id/btn_firstlogin_guardar"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Guardar Datos" android:layout_gravity="center"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-    />
-    <Button android:id="@+id/btn_firstlogin_cerrarsesion"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Cerrar Sesión" android:layout_gravity="center"
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-    />
-</LinearLayout>
+</ScrollView>

@@ -17,6 +17,16 @@
         <item name="android:padding">5dip</item>
         <item name="android:elevation">2dp</item>
     </style>
+    <style name="titleElevation2dp">
+        <item name="android:background">@drawable/title_bg</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <style name="fabElevation2dp">
+        <item name="android:background">@drawable/circleshape</item>
+        <item name="android:elevation">2dp</item>
+    </style>
     <style name="Titulo_1">
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">#222</item>

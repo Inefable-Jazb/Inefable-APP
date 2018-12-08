@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class F_Vehiculo {
     public static int Crear(O_Vehiculo vehiculo) {
-        String params = "TIPO=vehiculo&OP=agregar&PATENTE=" + vehiculo.getPatente() + "&MARCA=" + vehiculo.getMarca() + "&ALTURA=" + vehiculo.getAltura() + "&LARGO=" + vehiculo.getLargo() + "&ANCHO=" + vehiculo.getAncho() + "&CARGAMAX=" + vehiculo.getCargaMax() + "&TIP=" + vehiculo.getTipo() + "&RENDIMIENTO=" + vehiculo.getValor() + "&PROPIETARIO=" + vehiculo.getPropietario();
+        String params = "TIPO=vehiculo&OP=agregar&PATENTE=" + vehiculo.getPatente() + "&MARCA=" + vehiculo.getMarca() + "&ALTURA=" + vehiculo.getAltura() + "&LARGO=" + vehiculo.getLargo() + "&ANCHO=" + vehiculo.getAncho() + "&CARGAMAX=" + vehiculo.getCargaMax() + "&TIP=" + vehiculo.getTipo() + "&VALOR=" + vehiculo.getValor() + "&PROPIETARIO=" + vehiculo.getPropietario() + "&VALORBASE=" + vehiculo.getValorBase();
         Enlace.RespuetaHTTP respueta;
         try {
             respueta = new Enlace().execute(params).get();
