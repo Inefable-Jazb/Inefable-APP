@@ -1,12 +1,10 @@
 package cl.inefable.jazb.inefable.Modelo.DATA;
 
-import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
-
 import java.io.Serializable;
 
 public class O_Reserva implements Serializable {
     private int ID;
-    private O_Usuario Usuario;
+    private O_Usuario Solicitante;
     private O_Vehiculo Vehiculo;
     private int Tipo;
     private O_EstadoReserva Estado;
@@ -38,7 +36,7 @@ public class O_Reserva implements Serializable {
      */
     public O_Reserva(int ID, O_Usuario usuario, O_Vehiculo vehiculo, int tipo, O_EstadoReserva estado, String fecha, String direccionInicio, double latInicio, double longInicio, String direccionDestino, double latDestino, double longDestino, int valorTotal, int distancia, int duracion) {
         this.ID = ID;
-        Usuario = usuario;
+        Solicitante = usuario;
         Vehiculo = vehiculo;
         Tipo = tipo;
         Estado = estado;
@@ -68,12 +66,12 @@ public class O_Reserva implements Serializable {
         this.ID = ID;
     }
 
-    public O_Usuario getUsuario() {
-        return Usuario;
+    public O_Usuario getSolicitante() {
+        return Solicitante;
     }
 
-    public void setUsuario(O_Usuario usuario) {
-        Usuario = usuario;
+    public void setSolicitante(O_Usuario solicitante) {
+        Solicitante = solicitante;
     }
 
     public O_Vehiculo getVehiculo() {

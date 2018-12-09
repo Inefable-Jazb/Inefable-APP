@@ -33,7 +33,6 @@
                   app:layout_constraintTop_toBottomOf="@+id/tv_principal_titulo"
                   app:layout_constraintStart_toStartOf="parent"
                   app:layout_constraintEnd_toEndOf="parent"/>
-
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
                                                         android:elevation="2dp"
@@ -41,8 +40,21 @@
                                                         android:src="@drawable/ic_add_black_24dp"
                                                         android:layout_height="wrap_content"
                                                         android:layout_margin="8dp"
+                                                        android:backgroundTint="@color/primaryDarkColor"
                                                         app:layout_constraintBottom_toBottomOf="parent"
                                                         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton android:layout_width="wrap_content"
+                                                        android:elevation="2dp"
+                                                        android:id="@+id/fab_principal_pendientes"
+                                                        android:src="@drawable/ic_waiting_list"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_margin="8dp"
+                                                        android:visibility="gone"
+                                                        android:tooltipText="Solicitudes de reserva"
+                                                        app:layout_constraintBottom_toTopOf="@id/fab_principal_agregar"
+                                                        app:layout_constraintEnd_toEndOf="parent"/>
+
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_principal_listavehiculos"
             android:layout_width="match_parent"

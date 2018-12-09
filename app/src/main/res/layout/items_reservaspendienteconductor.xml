@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:padding="4dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <TextView
+            android:id="@+id/item_tv_reservaspendientes_solicitante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/DetalleItem.Titulo"
+            tools:text="Solicitante: "/>
+    <TextView
+            android:id="@+id/item_tv_reservaspendientes_estado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Estado: "/>
+    <TextView
+            android:id="@+id/item_tv_reservaspendientes_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Distancia aprox. del servicio: "/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap para ver detalles"
+            android:layout_gravity="center"
+            android:textColor="#DDD"/>
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"/>
+</LinearLayout>

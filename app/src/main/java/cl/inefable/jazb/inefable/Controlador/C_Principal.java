@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class C_Principal extends AppCompatActivity {
     private O_Usuario UsuarioActual;
 
-    private FloatingActionButton Agregar;
+    private FloatingActionButton Agregar, Pendientes;
 
     private TextView Saludo, Titulo;
 
@@ -57,6 +57,7 @@ public class C_Principal extends AppCompatActivity {
         if (UsuarioActual.getTipo() == 1) {
             Titulo.setText("Camiones Registrados");
             CargarListaCamionesAgregados();
+            Pendientes.show();
             if (!isMyServiceRunning(S_Notificador.class)) {
                 //startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID", UsuarioActual.getID()));
             }
@@ -75,7 +76,7 @@ public class C_Principal extends AppCompatActivity {
             O_Alerta alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,
                     "Mis Camiones",
-                    "Aún no tienes camiones reservados, comienza a reservar con el boton en la parte inferior de la pantalla.",
+                    "Aún no tienes camiones reservados, comienza a reservar con el botón en la parte inferior de la pantalla.",
                     false,
                     3500,
                     O_Alerta.RES_ICO_INFO
@@ -106,6 +107,7 @@ public class C_Principal extends AppCompatActivity {
 
     private void ConfigurarListeners() {
         Agregar.setOnClickListener(btn_Click());
+        Pendientes.setOnClickListener(btn_Click());
     }
 
     private void MostrarAlerta(O_Alerta alerta) {
@@ -133,10 +135,17 @@ public class C_Principal extends AppCompatActivity {
                             startActivityForResult(destino, C_AgregarVehiculo.ActCode);
                         } else {
                             O_Reserva reserva = new O_Reserva();
-                            reserva.setUsuario(UsuarioActual);
+                            reserva.setSolicitante(UsuarioActual);
                             Intent destino = new Intent(C_Principal.this, C_Mapa_DefinirRuta.class);
                             destino.putExtra("RESERVA", reserva);
                             startActivityForResult(destino, C_Mapa_DefinirRuta.ActCode);
+                        }
+                        break;
+                    case R.id.fab_principal_pendientes:
+                        if (UsuarioActual.getTipo() == 1) {
+                            Intent destino = new Intent(C_Principal.this, C_ReservasPendientes.class);
+                            destino.putExtra("USUARIO", UsuarioActual);
+                            startActivityForResult(destino, C_ReservasPendientes.ActCode);
                         }
                         break;
                 }
@@ -146,6 +155,7 @@ public class C_Principal extends AppCompatActivity {
 
     private void InicializarComponenetes() {
         Agregar = findViewById(R.id.fab_principal_agregar);
+        Pendientes = findViewById(R.id.fab_principal_pendientes);
 
         Saludo = findViewById(R.id.tv_principal_saludo);
         Titulo = findViewById(R.id.tv_principal_titulo);

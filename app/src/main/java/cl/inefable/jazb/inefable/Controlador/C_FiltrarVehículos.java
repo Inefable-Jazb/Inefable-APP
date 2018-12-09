@@ -86,7 +86,7 @@ public class C_FiltrarVehículos extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         ListaFiltrada.setLayoutManager(llm);
         O_Reserva res = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
-        Lista_Filtrada lista = new Lista_Filtrada(F_Vehiculo.FiltrarVehiculos(filtros, res.getUsuario().getID()));
+        Lista_Filtrada lista = new Lista_Filtrada(F_Vehiculo.FiltrarVehiculos(filtros, res.getSolicitante().getID()));
         if (lista.getItemCount() == 0) {
             O_Alerta alerta = new O_Alerta(
                     O_Alerta.TIPO_INFO,

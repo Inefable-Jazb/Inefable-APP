@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView style="@style/Titulo_1" android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Detalle Reserva"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/Requisitos_Label"
+              android:text="Datos de la reserva"
+              android:textStyle="bold"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_solicitante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solicitante: "
+            style="@style/DetalleCamionTextoInformacion"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_patente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehículo: AB CD-12"
+            style="@style/DetalleCamionTextoInformacion"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_direccioninicio"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direccion Inicio:"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_direciondestino"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direccion Destino: "/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_duracion"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiempo estimado :"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_distancia"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distancia (en metros):"/>
+    <TextView
+            android:id="@+id/tv_detallereservaconductor_costototal"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Costo Total:" android:textStyle="italic|bold"/>
+    <TextView
+            style="@style/DetalleCamionTextoInformacion"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ruta:"/>
+
+    <fragment android:id="@+id/map_detallereservaconductor_ruta"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+    <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Aceptar" style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:drawableStart="@drawable/ic_ico_checktick"
+                android:id="@+id/btn_detallereservaconductor_aceptar"
+                android:backgroundTint="@color/Correcto"/>
+        <Button android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="Rechazar" style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:id="@+id/btn_detallereservaconductor_rechazar"
+                android:drawableStart="@drawable/ic_cancelar" android:backgroundTint="@color/Error"/>
+
+        <Button android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="Comenzar" style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:id="@+id/btn_detallereservaconductor_comenzar"
+                android:drawableStart="@drawable/ic_map_marker_start"
+                android:backgroundTint="@color/primaryLightColor"/>
+        <Button android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="Finalizar" style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:id="@+id/btn_detallereservaconductor_finalizar"
+                android:drawableStart="@drawable/ic_flag" android:backgroundTint="@color/primaryDarkColor"/>
+    </LinearLayout>
+</LinearLayout>

@@ -37,7 +37,7 @@ public class F_Usuario {
         try {
             String params = "TIPO=reserva&" +
                     "OP=hacerreserva&" +
-                    "IDUSUARIO=" + reserva.getUsuario().getID() + "&" +
+                    "IDUSUARIO=" + reserva.getSolicitante().getID() + "&" +
                     "IDCAMION=" + reserva.getVehiculo().getID() + "&" +
                     "TIPORESERVA=1&" +
                     "DIRECCION_ORIGEN=" + URLEncoder.encode(reserva.getDireccionInicio() + "", "utf-8") + "&" +
@@ -148,6 +148,140 @@ public class F_Usuario {
         } catch (UnsupportedEncodingException e) {
             return -1;
         }
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int AceptarReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=aceptarreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int RechazarReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=rechazarreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static ArrayList<O_Reserva> TaaerReservasPendientesConductor(O_Usuario usuario) {
+        String params = "TIPO=reserva&OP=traerreservaspendienteconductor" +
+                "&USUARIOID=" + usuario.getID();
+        Enlace.RespuetaHTTP respueta;
+        ArrayList<O_Reserva> lista;
+
+        try {
+            lista = new ArrayList<>();
+            respueta = new Enlace().execute(params).get();
+            Log.d("HTTP RESPONSE DATA", respueta.getRespuesta());
+            if (respueta.getRespuesta().equals("0")) {
+                return new ArrayList<>();
+            } else {
+                String[] filas = respueta.getRespuesta().split("%%");
+                for (String fila :
+                        filas) {
+                    JSONArray r = new JSONArray(fila);
+
+                    O_Reserva reserva = new O_Reserva(
+                            r.getInt(0),
+                            new O_Usuario(
+                                    r.getInt(1),
+                                    r.getString(2),
+                                    r.getString(3),
+                                    r.getString(4),
+                                    r.getString(5),
+                                    new O_Pais(
+                                            r.getInt(6),
+                                            r.getString(7),
+                                            r.getString(8))
+                            ),
+                            new O_Vehiculo(
+                                    r.getInt(9),
+                                    r.getString(10),
+                                    r.getString(11),
+                                    r.getDouble(12),
+                                    r.getDouble(13),
+                                    r.getDouble(14),
+                                    r.getInt(15),
+                                    r.getString(16),
+                                    r.getInt(17),
+                                    r.getInt(18),
+                                    new O_Usuario(
+                                            r.getInt(19),
+                                            r.getString(20),
+                                            r.getString(21),
+                                            r.getString(22),
+                                            r.getString(23),
+                                            new O_Pais(
+                                                    r.getInt(24),
+                                                    r.getString(25),
+                                                    r.getString(26)
+                                            )
+                                    )
+                            ),
+                            r.getInt(27),
+                            new O_EstadoReserva(
+                                    r.getInt(28),
+                                    r.getString(29),
+                                    r.getString(30)
+                            ),
+                            r.getString(31),
+                            r.getString(32),
+                            r.getDouble(33),
+                            r.getDouble(34),
+                            r.getString(35),
+                            r.getDouble(36),
+                            r.getDouble(37),
+                            r.getInt(38),
+                            r.getInt(39),
+                            r.getInt(40)
+                    );
+                    lista.add(reserva);
+                }
+                return lista;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public static int ComenzarReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=comenzarreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int FinalizarReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=finalizarreserva" +
+                "&IDRESERVA=" + reserva.getID();
         Enlace.RespuetaHTTP respueta;
         try {
             respueta = new Enlace().execute(params).get();

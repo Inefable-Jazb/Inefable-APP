@@ -14,7 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -154,7 +153,7 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
                         O_Reserva reserva = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
                         if (reserva == null) {
                             reserva = new O_Reserva();
-                            reserva.setUsuario(Funciones.UsuarioActual);
+                            reserva.setSolicitante(Funciones.UsuarioActual);
                         }
                         reserva.setLatDestino(destino.getPosition().latitude);
                         reserva.setLongDestino(destino.getPosition().longitude);
