@@ -139,6 +139,24 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".Controlador.C_ReservasPendientes"/>
         </activity>
+        <activity
+                android:name=".Controlador.C_EstadoReserva"
+                android:label="@string/app_name"
+                android:parentActivityName=".Controlador.C_Principal"
+                android:screenOrientation="portrait">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".Controlador.C_Principal"/>
+        </activity>
+        <activity
+                android:name=".Controlador.C_ValorarServicio"
+                android:label="@string/app_name"
+                android:parentActivityName=".Controlador.C_EstadoReserva"
+                android:screenOrientation="portrait">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".Controlador.C_EstadoReserva"/>
+        </activity>
     </application>
 
 </manifest>

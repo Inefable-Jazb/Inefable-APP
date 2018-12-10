@@ -139,7 +139,6 @@ public class C_DetalleReserva extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 goBackResult();
-                finish();
                 res = true;
                 break;
             default:
@@ -150,16 +149,16 @@ public class C_DetalleReserva extends AppCompatActivity {
     }
 
     private void goBackResult() {
-        O_Reserva reserva = (O_Reserva) getIntent().getSerializableExtra("RESERVA");
         Intent datos = new Intent();
         datos.putExtra("RESERVA", reserva);
-        setResult(-1, datos);
+        setResult(RESULT_CANCELED, datos);
+        finish();
     }
 
     @Override
     public void onBackPressed() {
         goBackResult();
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 
     private void MostrarAlerta(O_Alerta alerta) {

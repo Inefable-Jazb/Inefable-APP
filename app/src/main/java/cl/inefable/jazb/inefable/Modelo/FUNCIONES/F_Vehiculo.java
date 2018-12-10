@@ -3,6 +3,7 @@ package cl.inefable.jazb.inefable.Modelo.FUNCIONES;
 import android.util.Log;
 import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_TipoVehiculo;
+import cl.inefable.jazb.inefable.Modelo.DATA.O_Valoracion;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
 import kotlin.Function;
 import org.json.JSONArray;
@@ -173,6 +174,38 @@ public class F_Vehiculo {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public static ArrayList<O_Valoracion> TraerValoraciones(O_Vehiculo vehiculo) {
+        String params = "TIPO=vehiculo&OP=traervaloraciones&ID=" + vehiculo.getID();
+        Enlace.RespuetaHTTP respueta;
+        ArrayList<O_Valoracion> lista;
+
+        try {
+            lista = new ArrayList<>();
+            respueta = new Enlace().execute(params).get();
+            Log.d("HTTP RESPONSE DATA", respueta.getRespuesta());
+            if (respueta.getRespuesta().equals("0")) {
+                return null;
+            } else {
+                String[] filas = respueta.getRespuesta().split("%%");
+                for (String fila :
+                        filas) {
+                    JSONArray r = new JSONArray(fila);
+                    O_Valoracion aux = new O_Valoracion(
+                            r.getInt(0),
+                            (float) r.getDouble(1),
+                            r.getString(2),
+                            r.getString(3),
+                            r.getInt(4)
+                    );
+                    lista.add(aux);
+                }
+                return lista;
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 }

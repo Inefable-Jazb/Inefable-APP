@@ -157,7 +157,7 @@ public class C_FiltrarVehículos extends AppCompatActivity {
             holder.asd.setTag(vehiculos.get(position));
             holder.asd.setOnClickListener(rv_ItemClick());
             holder.Patente.setText(vehiculos.get(position).getPatente());
-            holder.Tipo.setText("Marca: " + vehiculos.get(position).getTipo());
+            holder.Tipo.setText("Tipo: " + vehiculos.get(position).getTipo());
             holder.Costo.setText("Valor: $" + vehiculos.get(position).getValor() + " /km");
             holder.Valoracion.setRating((float) vehiculos.get(position).getValoracion());
         }
@@ -228,9 +228,10 @@ public class C_FiltrarVehículos extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, data);
                     finish();
                     return;
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    O_Reserva aux = (O_Reserva) data.getSerializableExtra("RESERVA");
+                    getIntent().putExtra("RESERVA", aux);
                 }
-                O_Reserva aux = (O_Reserva) data.getSerializableExtra("RESERVA");
-                getIntent().putExtra("RESERVA", aux);
                 break;
         }
     }

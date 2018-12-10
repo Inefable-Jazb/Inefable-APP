@@ -68,7 +68,7 @@
             android:rating="2.25"
             app:layout_constraintLeft_toRightOf="@id/gl_resultadofiltro_guideline"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_resultadofiltro_Puntuacion"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_resultadofiltro_Puntuacion" android:stepSize=".25"/>
     <View
             android:id="@+id/divider"
             android:layout_width="0dp"

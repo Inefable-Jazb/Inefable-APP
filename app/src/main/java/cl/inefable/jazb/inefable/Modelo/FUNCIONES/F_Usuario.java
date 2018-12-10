@@ -291,6 +291,47 @@ public class F_Usuario {
         }
     }
 
+    public static int CancelarReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=cancelarreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int ValorarServicios(O_Valoracion valoracion) {
+        String params = null;
+        params = "TIPO=usuario&OP=valorarreserva" +
+                "&PUNTAJE=" + valoracion.getValoracion() +
+                "&COMENTARIO=" + valoracion.getComentario() +
+                "&IDRESERVA=" + valoracion.getIDReserva();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int ReservaValorada(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=hecomentadoreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            return Integer.parseInt(respueta.getRespuesta());
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+
     public int Crear(O_Usuario usuario) {
         String params = "TIPO=usuario&OP=agregar&USUARIO=" + usuario.getUsuario() + "&CLAVE=" + usuario.getClave() + "&TIPP=" + usuario.getTipo();
         Enlace.RespuetaHTTP respueta;

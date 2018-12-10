@@ -38,7 +38,7 @@
                     android:isIndicator="true"
                     style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
                     android:id="@+id/rb_detallevehiculo_valoracionpromedio"
-            />
+                    android:numStars="5" android:stepSize=".25"/>
             <TextView android:layout_width="wrap_content" android:layout_gravity="center"
                       android:layout_height="wrap_content" android:text="Datos vehículo"
                       style="@style/DetalleItem.Titulo"/>

@@ -145,7 +145,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                             O_Alerta alerta = new O_Alerta(
                                     O_Alerta.TIPO_ERROR,
                                     "Gestión de Reservas",
-                                    "Hubo un error al rechazar la reserva, intentar nuevamente.",
+                                    "Hubo un error al comenzar la reserva, intentar nuevamente.",
                                     false,
                                     2500,
                                     O_Alerta.RES_ICO_ERROR
@@ -161,7 +161,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                             O_Alerta alerta = new O_Alerta(
                                     O_Alerta.TIPO_ERROR,
                                     "Gestión de Reservas",
-                                    "Hubo un error al rechazar la reserva, intentar nuevamente.",
+                                    "Hubo un error al finalizar la reserva, intentar nuevamente.",
                                     false,
                                     2500,
                                     O_Alerta.RES_ICO_ERROR
@@ -186,7 +186,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         backCancel();
     }
 
@@ -226,10 +226,13 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
         DireccionInicio.setText("Inicio: " + Reserva.getDireccionInicio());
         DireccionDestino.setText("Destino: " + Reserva.getDireccionDestino());
         Distancia.setText("Distancia aprox.: " + ((float) Reserva.getDistancia() / 1000) + " Km.");
-        int horas, min;
-        horas = Reserva.getDuracion() / 60;
-        min = Reserva.getDuracion() % 60;
-        TiempoEstimado.setText("Tiempo estimado: " + horas + "hora(s) y " + min + "minuto(s).");
+        int horas, min, seg;
+        seg = Reserva.getDuracion();
+        horas = seg / (60 * 60);
+        seg = seg % (60 * 60);
+        min = seg / 60;
+        seg -= min * 60;
+        TiempoEstimado.setText("Tiempo estimado: " + horas + " hora(s) y " + min + " minuto(s) y " + seg + " segundo(s) aprox.");
         CostoTotal.setText("Costo total sugerido: $" + Reserva.getValorTotal());
     }
 

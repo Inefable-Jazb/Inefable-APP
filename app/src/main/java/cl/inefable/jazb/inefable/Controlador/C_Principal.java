@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -305,12 +306,16 @@ public class C_Principal extends AppCompatActivity {
             public void onClick(View v) {
                 if (UsuarioActual.getTipo() != 1) {
                     O_Reserva reserva = (O_Reserva) v.getTag();
-                    O_Vehiculo vehiculo = reserva.getVehiculo();
-                    Toast.makeText(C_Principal.this, "Estado de la reserva: " + reserva.getEstado().getNombre(), Toast.LENGTH_SHORT).show();
+                    Intent destino = new Intent(C_Principal.this, C_EstadoReserva.class);
+                    Log.d("Llendo a:", "->" + C_EstadoReserva.class.getSimpleName());
+                    destino.putExtra("USUARIO", UsuarioActual);
+                    destino.putExtra("RESERVA", reserva);
+                    startActivityForResult(destino, C_EstadoReserva.ActCode);
                     return;
                 } else {
                     O_Vehiculo vehiculo = (O_Vehiculo) v.getTag();
                     Intent destino = new Intent(C_Principal.this, C_DetalleVehiculo.class);
+                    Log.d("Llendo a:", "->" + C_DetalleVehiculo.class.getSimpleName());
                     destino.putExtra("VEHICULO", vehiculo);
                     startActivityForResult(destino, C_DetalleVehiculo.ActCode);
                 }

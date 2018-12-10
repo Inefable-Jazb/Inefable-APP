@@ -20,15 +20,12 @@ import java.util.regex.Pattern;
 public class Funciones {
     public static O_Usuario UsuarioActual;
 
+    private static String EXP_AUTO_VIEJO = "[A-Z]{2}-[1-9]{1}[0-9]{3}";
     private static String regexUsuarioMIN4 = "^[a-zA-Z\\d\\-ñ]{4,}$";
     private static String regexUsuarioClave = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
-    private static String regexPatente = "^[BCDFGHJKLPRSTVWXY]{4}$";
+    private static String regexPatente = "^[BCDFGHJKLPRSTVWXY]{4}-[0-9]{2}$";
     private static final String regexCorreo = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     private static String regexNombreApellidoMarca = "^[a-zA-Zñá-úÁ-Ú]{2,}$";
-
-    public void tuViejaEstuvoAqui(){
-        System.out.println("polloputo");
-    }
 
     public static String[] nivelesClave = new String[]{
             "^(?=.*[A-Z])[a-zA-Z\\d]+$",
@@ -172,6 +169,8 @@ public class Funciones {
                     return false;
                 }
             }
+        } else if (cumple(Patente, EXP_AUTO_VIEJO)) {
+            return true;
         } else {
             return false;
         }

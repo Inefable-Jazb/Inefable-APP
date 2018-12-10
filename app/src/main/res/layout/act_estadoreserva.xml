@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView style="@style/Titulo_1" android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Detalle Reserva"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/Requisitos_Label"
+              android:text="Datos de la reserva"
+              android:textStyle="bold"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_patente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehículo: AB CD-12"
+            style="@style/DetalleCamionTextoInformacion"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_dueño"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dueño: "
+            style="@style/DetalleCamionTextoInformacion"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_direccioninicio"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direccion Inicio:"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_direcciondestino"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direccion Destino: "/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_tiempoestimado"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiempo estimado: "/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_distancia"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distancia (en metros):"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_costototal"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Costo Total:" android:textStyle="italic|bold"/>
+    <TextView
+            android:id="@+id/tv_estadoreservacliente_estado"
+            style="@style/DetalleCamionTextoInformacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:textColor="@color/Correcto"
+            android:text="Estado de la reserva: "/>
+    <TextView
+            style="@style/DetalleCamionTextoInformacion"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ruta:"/>
+    <fragment android:id="@+id/map_estadoreservacliente_ruta"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <Button android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:id="@+id/btn_estadoreservacliente_cancelar" android:text="Cancelar"
+                style="@style/Widget.AppCompat.Button.Colored" android:backgroundTint="@color/Error"/>
+        <Button android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:id="@+id/btn_estadoreservacliente_monitorear" android:text="Monitorear"
+                style="@style/Widget.AppCompat.Button.Colored" android:backgroundTint="@color/Correcto"/>
+        <Button android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:id="@+id/btn_estadoreservacliente_valorar" android:text="Valorar"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+    </LinearLayout>
+</LinearLayout>
