@@ -8,11 +8,15 @@ import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
 import com.google.android.gms.maps.model.LatLng;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,10 +27,9 @@ public class Funciones {
     private static String EXP_AUTO_VIEJO = "[A-Z]{2}-[1-9]{1}[0-9]{3}";
     private static String regexUsuarioMIN4 = "^[a-zA-Z\\d\\-ñ]{4,}$";
     private static String regexUsuarioClave = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
-    private static String regexPatente = "^[BCDFGHJKLPRSTVWXY]{4}-[0-9]{2}$";
+    private static String regexPatente = "^[BCDFGHJKLPRSTVWXY]{4}$";
     private static final String regexCorreo = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     private static String regexNombreApellidoMarca = "^[a-zA-Zñá-úÁ-Ú]{2,}$";
-
     public static String[] nivelesClave = new String[]{
             "^(?=.*[A-Z])[a-zA-Z\\d]+$",
             "^(?=.*[a-z])[a-zA-Z\\d]+$",
@@ -155,7 +158,9 @@ public class Funciones {
     public static boolean ValidarPatente(String Patente) {
         if (Patente.contains("-")) {
             String[] partes = Patente.split("-");
-            if (!cumple(partes[0], regexPatente)) {
+            if (cumple(Patente, EXP_AUTO_VIEJO)) {
+                return true;
+            } else if (!cumple(partes[0], regexPatente)) {
                 return false;
             } else {
                 try {
@@ -169,8 +174,6 @@ public class Funciones {
                     return false;
                 }
             }
-        } else if (cumple(Patente, EXP_AUTO_VIEJO)) {
-            return true;
         } else {
             return false;
         }
@@ -206,6 +209,7 @@ public class Funciones {
         String[] direccion = obtenerDireccion(geocoder, latlng);
         return direccion[6] + " " + direccion[7] + ", " + direccion[1];
     }
+
     public static O_Ruta CalcularDistancia(O_Reserva reserva) {
         String auxxx;
         try {
@@ -236,25 +240,20 @@ public class Funciones {
     public static LatLng ObtenerLatLngporDireccion(Geocoder coder, String strAddress) {
         List<Address> address;
         LatLng p1 = null;
-
         try {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
             }
-
             Address location = address.get(0);
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
         } catch (IOException ex) {
-
             ex.printStackTrace();
         }
 
         return p1;
     }
-
 
     public static String descargarURL(URL url) throws IOException {
         InputStream stream = null;
@@ -303,9 +302,7 @@ public class Funciones {
         return sb.toString();
     }
 
-
     private static class MatrixAsync extends AsyncTask<O_Reserva, Integer, MatrixAsync.RespuetaHTTP> {
-
         public class RespuetaHTTP {
             private String Respuesta;
             private Exception Excepcion;

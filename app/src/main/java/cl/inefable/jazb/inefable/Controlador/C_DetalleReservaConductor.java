@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +30,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.tapadoo.alerter.Alerter;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -266,7 +275,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
             Mapa.setBuildingsEnabled(true);
             Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             Mapa.getUiSettings().setMapToolbarEnabled(false);
-            final FusedLocationProviderClient flpc = new FusedLocationProviderClient(this);
+            /*final FusedLocationProviderClient flpc = new FusedLocationProviderClient(this);
             flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
@@ -282,7 +291,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                 public void onFailure(@NonNull Exception e) {
                     e.printStackTrace();
                 }
-            });
+            });*/
             Mapa.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                 @Override
                 public void onMapLoaded() {
@@ -321,5 +330,212 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
         Mapa.animateCamera(cu);
+
+        CargarRuta();
+    }
+
+    private void CargarRuta() {
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + Reserva.getLatInicio() + "," + Reserva.getLongInicio() + "&destination=" + Reserva.getLatDestino() + "," + Reserva.getLongDestino() + "&key=AIzaSyDtiJomi-vfspYmxWGLO0cISVMRZaDQYGE";
+        new CrearPolylines().execute(url);
+    }
+
+    private class CrearPolylines extends AsyncTask<String, Integer, CrearPolylines.Resultado> {
+        public class Resultado {
+            private String Respueta;
+            private Exception Error;
+
+            public Resultado(Exception error) {
+                Error = error;
+            }
+
+            public Resultado(String respueta) {
+
+                Respueta = respueta;
+            }
+
+            public String getRespueta() {
+                return Respueta;
+            }
+
+            public Exception getError() {
+                return Error;
+            }
+        }
+
+        @Override
+        protected Resultado doInBackground(String... Urls) {
+            String enlace = Urls[0];
+            URL url;
+            try {
+                url = new URL(enlace);
+                String respuesta = Funciones.descargarURL(url);
+                if (respuesta != null) {
+                    return new Resultado(respuesta);
+                } else {
+                    throw new NullPointerException("No se ha recibido nada de la URL especificada. -> " + url);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Resultado(e);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Resultado resultado) {
+            super.onPostExecute(resultado);
+
+            if (resultado.getError() == null) {
+                new PolylineParser().execute(resultado);
+            }
+        }
+    }
+
+    private class PolylineParser extends AsyncTask<CrearPolylines.Resultado, Integer, List<List<HashMap<String, String>>>> {
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(CrearPolylines.Resultado... resultados) {
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(resultados[0].getRespueta());
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+            String distance = "";
+            String duration = "";
+
+            if (lists.size() < 1) {
+                Toast.makeText(getBaseContext(), "No Points", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Traversing through all the routes
+            for (int i = 0; i < lists.size(); i++) {
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = lists.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    if (j == 0) {    // Get distance from the list
+                        distance = (String) point.get("distance");
+                        continue;
+                    } else if (j == 1) { // Get duration from the list
+                        duration = (String) point.get("duration");
+                        continue;
+                    }
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(5);
+                lineOptions.color(Color.RED);
+            }
+            // Drawing polyline in the Google Map for the i-th route
+            Mapa.addPolyline(lineOptions);
+        }
+    }
+
+    public class DirectionsJSONParser {
+        /**
+         * Receives a JSONObject and returns a list of lists containing latitude and longitude
+         */
+        public List<List<HashMap<String, String>>> parse(JSONObject jObject) {
+            List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>();
+            JSONArray jRoutes = null;
+            JSONArray jLegs = null;
+            JSONArray jSteps = null;
+            try {
+                jRoutes = jObject.getJSONArray("routes");
+                /** Traversing all routes */
+                for (int i = 0; i < jRoutes.length(); i++) {
+                    jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+                    List path = new ArrayList<HashMap<String, String>>();
+
+                    /** Traversing all legs */
+                    for (int j = 0; j < jLegs.length(); j++) {
+                        jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
+
+                        /** Traversing all steps */
+                        for (int k = 0; k < jSteps.length(); k++) {
+                            String polyline = "";
+                            polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
+                            List<LatLng> list = decodePoly(polyline);
+
+                            /** Traversing all points */
+                            for (int l = 0; l < list.size(); l++) {
+                                HashMap<String, String> hm = new HashMap<String, String>();
+                                hm.put("lat", Double.toString(((LatLng) list.get(l)).latitude));
+                                hm.put("lng", Double.toString(((LatLng) list.get(l)).longitude));
+                                path.add(hm);
+                            }
+                        }
+                        routes.add(path);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        /**
+         * Obtener Polylines
+         * Fuente : http://jeffreysambells.com/2010/05/27/decoding-polylines-from-google-maps-direction-api-with-java
+         */
+        private List<LatLng> decodePoly(String encoded) {
+
+            List<LatLng> poly = new ArrayList<LatLng>();
+            int index = 0, len = encoded.length();
+            int lat = 0, lng = 0;
+
+            while (index < len) {
+                int b, shift = 0, result = 0;
+                do {
+                    b = encoded.charAt(index++) - 63;
+                    result |= (b & 0x1f) << shift;
+                    shift += 5;
+                } while (b >= 0x20);
+                int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+                lat += dlat;
+
+                shift = 0;
+                result = 0;
+                do {
+                    b = encoded.charAt(index++) - 63;
+                    result |= (b & 0x1f) << shift;
+                    shift += 5;
+                } while (b >= 0x20);
+                int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+                lng += dlng;
+
+                LatLng p = new LatLng((((double) lat / 1E5)),
+                        (((double) lng / 1E5)));
+                poly.add(p);
+            }
+
+            return poly;
+        }
     }
 }

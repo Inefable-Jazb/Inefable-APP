@@ -25,7 +25,7 @@
                   style="@style/Base.TextAppearance.AppCompat.Caption"
                   android:layout_marginHorizontal="4dp"
                   android:layout_height="wrap_content"
-                  android:text="Formato de la patente: XXXX-00"
+                  android:text="Formato de la patente: XXXX-00 o XX-0000"
                   android:textStyle="italic"/>
         <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                                                        android:id="@+id/til_agregarvehiculo_marca"
