@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import cl.inefable.jazb.inefable.Modelo.DATA.O_Monitoreo;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
@@ -39,16 +41,20 @@ import java.util.List;
 
 public class C_EstadoReserva extends AppCompatActivity {
     public static final int ActCode = 7854;
+    public static final int ReservaCancelada = 777;
+    public static final int SERVICIO_VALORADO = 458;
     private O_Reserva Reserva;
 
     private O_Usuario Usuario;
 
     private Button Cancelar, Monitorear, Valorar;
 
-    private TextView Patente, Propietario, Inicio, Destino, Distancia, CostoTotal, TiempoEstimado, Estado;
+    private TextView Patente, Propietario, Inicio, Destino, Distancia, CostoTotal, TiempoEstimado, Estado, LabelRuta;
 
     private GoogleMap Mapa;
     private SupportMapFragment mapFragment;
+    private boolean ActualizarPosición = true;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +88,7 @@ public class C_EstadoReserva extends AppCompatActivity {
                             );
                             MostrarAlerta(alerta);
                         } else {
+                            setResult(ReservaCancelada);
                             finish();
                         }
                         break;
@@ -129,12 +136,46 @@ public class C_EstadoReserva extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        ActualizarPosición = false;
         setResult(Activity.RESULT_CANCELED);
         super.onBackPressed();
     }
 
     private void HabilitarMapa() {
         mapFragment.getView().setVisibility(View.VISIBLE);
+        ObtenerPosicion();
+    }
+
+    Marker posicionConductor;
+
+    public void ObtenerPosicion() {
+        ActualizarPosición = true;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (ActualizarPosición) {
+                    LabelRuta.setVisibility(View.VISIBLE);
+                    O_Monitoreo posicion = F_Usuario.MonitorearReserva(Reserva);
+                    if (posicion != null) {
+                        MarkerOptions opciones;
+                        LatLng coor = new LatLng(posicion.getLat(), posicion.getLon());
+                        opciones = new MarkerOptions();
+                        opciones.title("Posición actual del conductor.");
+                        if (posicionConductor == null) {
+                            opciones.position(coor);
+                            posicionConductor = Mapa.addMarker(opciones);
+                            posicionConductor.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                        } else {
+                            posicionConductor.setPosition(coor);
+                        }
+                        LabelRuta.setText("Ruta: (Ultima Actualización: " + posicion.getUltimaFecha() + ")");
+                        CameraUpdate cu = CameraUpdateFactory.newLatLng(coor);
+                        Mapa.animateCamera(cu);
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        });
     }
 
     private void ConfigurarComponentes() {
@@ -287,6 +328,7 @@ public class C_EstadoReserva extends AppCompatActivity {
         CostoTotal = findViewById(R.id.tv_estadoreservacliente_costototal);
         Estado = findViewById(R.id.tv_estadoreservacliente_estado);
         TiempoEstimado = findViewById(R.id.tv_estadoreservacliente_tiempoestimado);
+        LabelRuta = findViewById(R.id.tv_estadoreservacliente_LABELRUTA);
 
         Cancelar = findViewById(R.id.btn_estadoreservacliente_cancelar);
         Monitorear = findViewById(R.id.btn_estadoreservacliente_monitorear);
@@ -298,15 +340,8 @@ public class C_EstadoReserva extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == C_ValorarServicio.ActCode) {
             if (resultCode == Activity.RESULT_OK) {
-                O_Alerta alerta = new O_Alerta(
-                        O_Alerta.TIPO_CORRECTO,
-                        "Valorar Reserva",
-                        "Valoración guardada exitósamente.",
-                        false,
-                        1500,
-                        O_Alerta.RES_ICO_CORRECTO
-                );
-                MostrarAlerta(alerta);
+                setResult(SERVICIO_VALORADO);
+                finish();
             }
         }
     }

@@ -3,6 +3,7 @@ package cl.inefable.jazb.inefable.Modelo.FUNCIONES;
 import android.util.Log;
 import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
 import cl.inefable.jazb.inefable.Modelo.DATA.*;
+import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 
 import java.io.UnsupportedEncodingException;
@@ -330,6 +331,51 @@ public class F_Usuario {
         } catch (Exception e) {
             return 1;
         }
+    }
+
+    public static void ActualizarPosición(O_Reserva reserva, LatLng actual) {
+        String params = null;
+        params = "TIPO=usuario&OP=actualizarposicion" +
+                "&IDRESERVA=" + reserva.getID() +
+                "&LATITUD=" + actual.latitude +
+                "&LONGITUD=" + actual.longitude;
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            if (respueta.getExcepcion() != null) {
+                throw new Exception(respueta.getExcepcion().getMessage());
+            } else {
+                Log.d("ESTADO ACT POS", respueta.getRespuesta() + "//");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static O_Monitoreo MonitorearReserva(O_Reserva reserva) {
+        String params = null;
+        params = "TIPO=usuario&OP=monitorearreserva" +
+                "&IDRESERVA=" + reserva.getID();
+        Enlace.RespuetaHTTP respueta;
+        try {
+            respueta = new Enlace().execute(params).get();
+            if (respueta.getExcepcion() != null) {
+                throw new Exception(respueta.getExcepcion().getMessage());
+            } else {
+                Log.d("ESTADO ACT POS", respueta.getRespuesta() + "//");
+                JSONArray res = new JSONArray(respueta.getRespuesta());
+                O_Monitoreo mon = new O_Monitoreo(
+                        res.getInt(0),
+                        res.getDouble(1),
+                        res.getDouble(2),
+                        res.getString(3)
+                );
+                return mon;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int Crear(O_Usuario usuario) {

@@ -74,15 +74,50 @@ public class C_ReservasPendientes extends AppCompatActivity implements F_Reserva
             case C_DetalleReservaConductor.ActCode:
                 O_Reserva aux = (O_Reserva) data.getSerializableExtra("RESERVA");
                 Usuario = aux.getVehiculo().getDueño();
-                if (resultCode == Activity.RESULT_OK) {
-                    O_Alerta alerta = new O_Alerta(
-                            O_Alerta.TIPO_CORRECTO,
-                            "Acetar Reserva",
-                            "Reserva aceptada correctamente.",
-                            false,
-                            1500,
-                            O_Alerta.RES_ICO_CORRECTO
-                    );
+                O_Alerta alerta = null;
+                switch (resultCode) {
+                    case RESULT_OK:
+                        alerta = new O_Alerta(
+                                O_Alerta.TIPO_CORRECTO,
+                                "Gestionar Reservas",
+                                "Reserva aceptada correctamente.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_CORRECTO
+                        );
+                        break;
+                    case C_DetalleReservaConductor.ENCURSO:
+                        alerta = new O_Alerta(
+                                O_Alerta.TIPO_CORRECTO,
+                                "Gestionar Reservas",
+                                "La ruta ha comenazado exitosamente.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_CORRECTO
+                        );
+                        break;
+                    case C_DetalleReservaConductor.FINALIZADA:
+                        alerta = new O_Alerta(
+                                O_Alerta.TIPO_CORRECTO,
+                                "Gestionar Reservas",
+                                "Reserva dada por finalizada con éxito.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_INFO
+                        );
+                        break;
+                    case C_DetalleReservaConductor.RECHAZADA:
+                        alerta = new O_Alerta(
+                                O_Alerta.TIPO_CORRECTO,
+                                "Gestionar Reservas",
+                                "Reserva rechzada.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_PRECAUCION
+                        );
+                        break;
+                }
+                if (alerta != null) {
                     MostrarAlerta(alerta);
                 }
                 CargarLista();

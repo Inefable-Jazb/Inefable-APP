@@ -62,6 +62,7 @@
             android:text="Estado de la reserva: "/>
     <TextView
             style="@style/DetalleCamionTextoInformacion"
+            android:id="@+id/tv_estadoreservacliente_LABELRUTA"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

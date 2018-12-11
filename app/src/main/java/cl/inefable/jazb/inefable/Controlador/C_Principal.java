@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
+import android.widget.Adapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import cl.inefable.jazb.inefable.Controlador.Servicios.S_Notificador;
@@ -36,6 +40,8 @@ public class C_Principal extends AppCompatActivity {
 
     private RecyclerView Lista;
 
+    private boolean actualizando = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +60,11 @@ public class C_Principal extends AppCompatActivity {
         }
         UsuarioActual = Funciones.UsuarioActual;
         Saludo.setText(UsuarioActual.getNombres() + " " + UsuarioActual.getApellidos());
+        CargarLista();
+        AutoUpdater();
+    }
 
+    private void CargarLista() {
         if (UsuarioActual.getTipo() == 1) {
             Titulo.setText("Camiones Registrados");
             CargarListaCamionesAgregados();
@@ -174,6 +184,7 @@ public class C_Principal extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent destino;
+        actualizando = false;
         switch (item.getItemId()) {
             case R.id.item_menu_cerrarsesion:
                 Funciones.UsuarioActual = null;
@@ -198,6 +209,8 @@ public class C_Principal extends AppCompatActivity {
                 } else {
                     CargarListaReservas();
                 }
+                Toast.makeText(this, "Lista Actualizada.", Toast.LENGTH_SHORT).show();
+                actualizando = true;
                 break;
         }
         return true;
@@ -304,6 +317,7 @@ public class C_Principal extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                actualizando = false;
                 if (UsuarioActual.getTipo() != 1) {
                     O_Reserva reserva = (O_Reserva) v.getTag();
                     Intent destino = new Intent(C_Principal.this, C_EstadoReserva.class);
@@ -311,7 +325,6 @@ public class C_Principal extends AppCompatActivity {
                     destino.putExtra("USUARIO", UsuarioActual);
                     destino.putExtra("RESERVA", reserva);
                     startActivityForResult(destino, C_EstadoReserva.ActCode);
-                    return;
                 } else {
                     O_Vehiculo vehiculo = (O_Vehiculo) v.getTag();
                     Intent destino = new Intent(C_Principal.this, C_DetalleVehiculo.class);
@@ -326,6 +339,7 @@ public class C_Principal extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        actualizando = true;
         switch (requestCode) {
             case C_AgregarVehiculo.ActCode:
                 if (resultCode == Activity.RESULT_OK) {
@@ -374,7 +388,7 @@ public class C_Principal extends AppCompatActivity {
                     O_Alerta alerta = new O_Alerta(
                             O_Alerta.TIPO_CORRECTO,
                             "Reservar Vehiculo",
-                            "TU reservas está lista, te recomendamos seguir buscando a tus padres",
+                            "Se ha enviado una solicitud al conductor para su revisión.",
                             false,
                             2000,
                             O_Alerta.RES_ICO_CORRECTO
@@ -396,7 +410,28 @@ public class C_Principal extends AppCompatActivity {
                     MostrarAlerta(alerta);
                 }
                 break;
+            case C_EstadoReserva.ActCode:
+                if (resultCode == C_EstadoReserva.ReservaCancelada) {
+                    CargarListaReservas();
+                } else if (resultCode == C_EstadoReserva.SERVICIO_VALORADO) {
+                    O_Alerta alerta = new O_Alerta(
+                            O_Alerta.TIPO_CORRECTO,
+                            "Valorar Reserva",
+                            "Valoración guardada exitósamente.",
+                            false,
+                            1500,
+                            O_Alerta.RES_ICO_CORRECTO
+                    );
+                    MostrarAlerta(alerta);
+                }
+                break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        actualizando = false;
+        super.onDestroy();
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -407,5 +442,19 @@ public class C_Principal extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void AutoUpdater() {
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                // upadte textView here
+                CargarLista();
+                if (actualizando) {
+                    handler.postDelayed(this, 5000);
+                }
+            }
+        });
     }
 }

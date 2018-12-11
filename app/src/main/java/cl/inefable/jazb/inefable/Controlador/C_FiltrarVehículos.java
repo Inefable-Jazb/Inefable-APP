@@ -44,6 +44,7 @@ public class C_FiltrarVehículos extends AppCompatActivity {
         InicializarComponentes();
         ConfigurarComponenetes();
         ConfigurarListeners();
+        ConfigurarBusqueda();
     }
 
     private void ConfigurarListeners() {
@@ -106,24 +107,7 @@ public class C_FiltrarVehículos extends AppCompatActivity {
         boolean res;
         switch (item.getItemId()) {
             case R.id.menu_filtrarvehiculos_buscar:
-                String variables = "";
-                String cargamax = CargaMax.getEditText().getText().toString().trim();
-                if (!cargamax.equals("")) {
-                    variables += "&CARGAMAX=" + cargamax;
-                }
-                String altura = Altura.getEditText().getText().toString().trim();
-                if (!altura.equals("")) {
-                    variables += "&ALTURA=" + altura;
-                }
-                String ancho = Ancho.getEditText().getText().toString().trim();
-                if (!altura.equals("")) {
-                    variables += "&ANCHO=" + ancho;
-                }
-                String largo = Largo.getEditText().getText().toString().trim();
-                if (!altura.equals("")) {
-                    variables += "&LARGO=" + largo;
-                }
-                CargarVehiculosFiltrados(variables);
+                ConfigurarBusqueda();
                 res = super.onOptionsItemSelected(item);
                 break;
             case android.R.id.home:
@@ -137,6 +121,26 @@ public class C_FiltrarVehículos extends AppCompatActivity {
         return res;
     }
 
+    private void ConfigurarBusqueda() {
+        String variables = "";
+        String cargamax = CargaMax.getEditText().getText().toString().trim();
+        if (!cargamax.equals("")) {
+            variables += "&CARGAMAX=" + cargamax;
+        }
+        String altura = Altura.getEditText().getText().toString().trim();
+        if (!altura.equals("")) {
+            variables += "&ALTURA=" + altura;
+        }
+        String ancho = Ancho.getEditText().getText().toString().trim();
+        if (!altura.equals("")) {
+            variables += "&ANCHO=" + ancho;
+        }
+        String largo = Largo.getEditText().getText().toString().trim();
+        if (!altura.equals("")) {
+            variables += "&LARGO=" + largo;
+        }
+        CargarVehiculosFiltrados(variables);
+    }
     class Lista_Filtrada extends RecyclerView.Adapter<Lista_Filtrada.VehicleViewHolder> {
         private ArrayList<O_Vehiculo> vehiculos;
 

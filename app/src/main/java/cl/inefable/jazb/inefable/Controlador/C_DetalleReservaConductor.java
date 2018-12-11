@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -49,6 +50,12 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
     private GoogleMap Mapa;
 
     private O_Reserva Reserva;
+    public static final int ENCURSO = 1254;
+    public static final int RECHAZADA = 4578;
+    public static final int FINALIZADA = 8754;
+
+    final Handler handler = new Handler();
+    private boolean ActualizarPosición;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +114,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                 Rechazar.setVisibility(View.GONE);
                 Comenzar.setVisibility(View.GONE);
                 Finalizar.setVisibility(View.VISIBLE);
+                UpdatePosition();
                 break;
         }
     }
@@ -130,7 +138,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                             );
                             MostrarAlerta(alerta);
                         } else {
-                            setResult(Activity.RESULT_OK, intent);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                         break;
@@ -146,24 +154,12 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                             );
                             MostrarAlerta(alerta);
                         } else {
-                            backCancel();
+                            setResult(RECHAZADA, intent);
+                            finish();
                         }
                         break;
                     case R.id.btn_detallereservaconductor_comenzar:
-                        if (F_Usuario.ComenzarReserva(Reserva) == 0) {
-                            O_Alerta alerta = new O_Alerta(
-                                    O_Alerta.TIPO_ERROR,
-                                    "Gestión de Reservas",
-                                    "Hubo un error al comenzar la reserva, intentar nuevamente.",
-                                    false,
-                                    2500,
-                                    O_Alerta.RES_ICO_ERROR
-                            );
-                            MostrarAlerta(alerta);
-                        } else {
-                            setResult(Activity.RESULT_OK, intent);
-                            finish();
-                        }
+                        UpdatePosition();
                         break;
                     case R.id.btn_detallereservaconductor_finalizar:
                         if (F_Usuario.FinalizarReserva(Reserva) == 0) {
@@ -177,7 +173,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                             );
                             MostrarAlerta(alerta);
                         } else {
-                            setResult(Activity.RESULT_OK, intent);
+                            setResult(FINALIZADA, intent);
                             finish();
                         }
                         break;
@@ -187,6 +183,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
     }
 
     private void backCancel() {
+        ActualizarPosición = false;
         Intent intent = new Intent();
         intent.putExtra("RESERVA", Reserva);
         setResult(Activity.RESULT_CANCELED, intent);
@@ -275,7 +272,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
             Mapa.setBuildingsEnabled(true);
             Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             Mapa.getUiSettings().setMapToolbarEnabled(false);
-            /*final FusedLocationProviderClient flpc = new FusedLocationProviderClient(this);
+            final FusedLocationProviderClient flpc = new FusedLocationProviderClient(this);
             flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
@@ -286,12 +283,6 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
                     Mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(actual, 16));
                 }
             });
-            flpc.getLastLocation().addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    e.printStackTrace();
-                }
-            });*/
             Mapa.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                 @Override
                 public void onMapLoaded() {
@@ -536,6 +527,49 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
             }
 
             return poly;
+        }
+    }
+
+    private void UpdatePosition() {
+        Comenzar.setVisibility(View.GONE);
+        Finalizar.setVisibility(View.VISIBLE);
+        ActualizarPosición = true;
+        if (F_Usuario.ComenzarReserva(Reserva) != 0) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (ActualizarPosición) {
+                        final FusedLocationProviderClient flpc = new FusedLocationProviderClient(getApplicationContext());
+                        flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                double lat = task.getResult().getLatitude();
+                                double lon = task.getResult().getLongitude();
+
+                                LatLng actual = new LatLng(lat, lon);
+                                F_Usuario.ActualizarPosición(Reserva, actual);
+                                MiPosicion(actual);
+                            }
+                        });
+                        handler.postDelayed(this, 1000);
+                    }
+                }
+            });
+        }
+    }
+
+    private Marker miposition;
+
+    private void MiPosicion(LatLng yo) {
+        if (miposition == null) {
+            MarkerOptions options;
+            options = new MarkerOptions();
+            options.title("Posición Actual");
+            options.position(yo);
+            miposition = Mapa.addMarker(options);
+            miposition.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        } else {
+            miposition.setPosition(yo);
         }
     }
 }

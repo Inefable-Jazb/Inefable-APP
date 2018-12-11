@@ -6,10 +6,13 @@
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/Titulo_1"
               android:text="Filtrar Vehículos"/>
     <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="Mostrar Filtros" android:checked="true"
+              android:text="Mostrar Filtros"
               android:id="@+id/id_filtrarvehiculos_mostrarfiltros"/>
     <LinearLayout android:id="@+id/ll_filtrarvehículos_panelfiltros" android:layout_width="match_parent"
-                  android:layout_height="wrap_content" android:orientation="vertical">
+                  android:layout_height="wrap_content"
+                  android:visibility="gone"
+                  android:orientation="vertical" android:elevation="2px"
+                  style="@style/TextViewelevation5">
         <android.support.design.widget.TextInputLayout android:id="@+id/til_filtrarvehículos_cargamax"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="wrap_content">
