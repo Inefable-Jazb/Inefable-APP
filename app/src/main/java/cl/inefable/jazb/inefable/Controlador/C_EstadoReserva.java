@@ -49,7 +49,7 @@ public class C_EstadoReserva extends AppCompatActivity {
 
     private Button Cancelar, Monitorear, Valorar;
 
-    private TextView Patente, Propietario, Inicio, Destino, Distancia, CostoTotal, TiempoEstimado, Estado, LabelRuta;
+    private TextView Patente, Propietario, Inicio, Destino, Distancia, CostoTotal, TiempoEstimado, Estado, LabelRuta, Telefono;
 
     private GoogleMap Mapa;
     private SupportMapFragment mapFragment;
@@ -187,6 +187,7 @@ public class C_EstadoReserva extends AppCompatActivity {
         Patente.setText("Patente Vehículo: " + Reserva.getVehiculo().getPatente());
         String dueño = Reserva.getVehiculo().getDueño().getNombres() + " " + Reserva.getVehiculo().getDueño().getApellidos();
         Propietario.setText("Dueño vehículo: " + dueño);
+        Telefono.setText("N° Teléfono: " + Reserva.getVehiculo().getDueño().getTelefono());
         Inicio.setText("Dirección Inicio: " + Reserva.getDireccionInicio());
         Destino.setText("Dirección Destino: " + Reserva.getDireccionDestino());
         Distancia.setText("Distancia aprox.: " + ((float) Reserva.getDistancia() / 1000) + " Km.");
@@ -257,7 +258,7 @@ public class C_EstadoReserva extends AppCompatActivity {
                     Mapa.getUiSettings().setMyLocationButtonEnabled(true);
                     Mapa.setBuildingsEnabled(true);
                     Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    Mapa.getUiSettings().setMapToolbarEnabled(false);
+                    Mapa.getUiSettings().setMapToolbarEnabled(true);
                     final FusedLocationProviderClient flpc = new FusedLocationProviderClient(C_EstadoReserva.this);
                     flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                         @Override
@@ -322,6 +323,7 @@ public class C_EstadoReserva extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Patente = findViewById(R.id.tv_estadoreservacliente_patente);
         Propietario = findViewById(R.id.tv_estadoreservacliente_dueño);
+        Telefono = findViewById(R.id.tv_estadoreservacliente_telefono);
         Inicio = findViewById(R.id.tv_estadoreservacliente_direccioninicio);
         Destino = findViewById(R.id.tv_estadoreservacliente_direcciondestino);
         Distancia = findViewById(R.id.tv_estadoreservacliente_distancia);

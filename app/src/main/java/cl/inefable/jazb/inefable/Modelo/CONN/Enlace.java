@@ -5,7 +5,6 @@ import android.util.Log;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Enlace extends AsyncTask<String, Integer, Enlace.RespuetaHTTP> {

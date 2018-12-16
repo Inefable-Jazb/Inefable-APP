@@ -8,15 +8,11 @@ import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
 import com.google.android.gms.maps.model.LatLng;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -301,6 +297,7 @@ public class Funciones {
         }
         return sb.toString();
     }
+
 
     private static class MatrixAsync extends AsyncTask<O_Reserva, Integer, MatrixAsync.RespuetaHTTP> {
         public class RespuetaHTTP {

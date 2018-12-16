@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,10 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
-import android.widget.Adapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import cl.inefable.jazb.inefable.Controlador.Servicios.S_Notificador;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
@@ -69,9 +66,9 @@ public class C_Principal extends AppCompatActivity {
             Titulo.setText("Camiones Registrados");
             CargarListaCamionesAgregados();
             Pendientes.show();
-            if (!isMyServiceRunning(S_Notificador.class)) {
-                //startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID", UsuarioActual.getID()));
-            }
+            /*if (!isMyServiceRunning(S_Notificador.class)) {
+                startService(new Intent(this, S_Notificador.class).putExtra("CONDUCTORID", UsuarioActual.getID()));
+            }*/
         } else {
             Titulo.setText("Camiones Reservados");
             CargarListaReservas();
@@ -189,7 +186,8 @@ public class C_Principal extends AppCompatActivity {
             case R.id.item_menu_cerrarsesion:
                 Funciones.UsuarioActual = null;
                 destino = new Intent(C_Principal.this, C_Login.class);
-                stopService(new Intent(C_Principal.this, S_Notificador.class));
+                //stopService(new Intent(C_Principal.this, S_Notificador.class));
+                CerrarSesion();
                 startActivity(destino);
                 finish();
                 break;
@@ -214,6 +212,12 @@ public class C_Principal extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void CerrarSesion() {
+        SharedPreferences mPrefs = getSharedPreferences("Inefable", 0);
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        mEditor.remove("USUARIOLOGEADO").commit();
     }
 
     class Lista_Registrados extends RecyclerView.Adapter<Lista_Registrados.VehicleViewHolder> {

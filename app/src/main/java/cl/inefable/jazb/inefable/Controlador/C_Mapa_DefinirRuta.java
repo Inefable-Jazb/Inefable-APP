@@ -9,12 +9,11 @@ import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -103,9 +102,26 @@ public class C_Mapa_DefinirRuta extends AppCompatActivity implements OnMapReadyC
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String dir = v.getText().toString().trim();
-                    Geocoder geo = new Geocoder(getApplicationContext());
-                    LatLng coor = Funciones.ObtenerLatLngporDireccion(geo, dir);
-                    if (coor != null) {
+                    LatLng coor = null;
+                    Geocoder geo = null;
+                    try {
+                        geo = new Geocoder(getApplicationContext());
+                        coor = Funciones.ObtenerLatLngporDireccion(geo, dir);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (geo == null) {
+                        O_Alerta alerta = new O_Alerta(
+                                O_Alerta.TIPO_ERROR,
+                                "Buscar dirección",
+                                "Los datos ingresados son insuficientes, por favor especificar un poco más.",
+                                false,
+                                1500,
+                                O_Alerta.RES_ICO_ERROR
+                        );
+                        MostrarAlerta(alerta);
+                    } else if (coor != null) {
                         AgregarMarcador(coor);
                     } else {
                         O_Alerta alerta = new O_Alerta(

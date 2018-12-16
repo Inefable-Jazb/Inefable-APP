@@ -118,7 +118,7 @@
                     android:value=".Controlador.C_Principal"/>
         </activity>
 
-        <service android:name=".Controlador.Servicios.S_Notificador"/>
+        <!--<service android:name=".Controlador.Servicios.S_Notificador"/>-->
 
         <activity
                 android:name=".Controlador.C_ReservasPendientes"

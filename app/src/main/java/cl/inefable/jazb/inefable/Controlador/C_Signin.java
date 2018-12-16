@@ -1,20 +1,18 @@
 package cl.inefable.jazb.inefable.Controlador;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.*;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
@@ -44,6 +42,33 @@ public class C_Signin extends AppCompatActivity {
         Usuario.getEditText().setOnFocusChangeListener(et_Focus());
         Clave1.getEditText().addTextChangedListener(et_TextHandler(1));
         Clave2.getEditText().addTextChangedListener(et_TextHandler(2));
+        Tipo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    AlertDialog.Builder a = new AlertDialog.Builder(C_Signin.this);
+                    a.setTitle("Información importante");
+                    a.setMessage("Inefable se encuentra actualmente en una etapa beta, por lo que las inscripciones de tipo 'Conductor' se encuentran libres de cargos. Una ves que Inefable termine la fase beta, se le otorgará un descuento a aquellos conductores que nos ayudaron en esta etapa, posteriormente los 'Conductores' deberán adquirir una subscripción para poder operar de forma normal.");
+                    a.setPositiveButton("Acepto", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Tipo.setChecked(true);
+                            dialog.dismiss();
+                        }
+                    });
+                    a.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            Tipo.setChecked(false);
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    a.setCancelable(true);
+                    AlertDialog ad = a.create();
+                    ad.show();
+                }
+            }
+        });
     }
 
     private View.OnClickListener btn_Click() {

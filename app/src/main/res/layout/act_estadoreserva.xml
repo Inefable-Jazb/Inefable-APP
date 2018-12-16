@@ -23,6 +23,12 @@
             android:text="Dueño: "
             style="@style/DetalleCamionTextoInformacion"/>
     <TextView
+            android:id="@+id/tv_estadoreservacliente_telefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="N° Teléfono: "
+            style="@style/DetalleCamionTextoInformacion"/>
+    <TextView
             android:id="@+id/tv_estadoreservacliente_direccioninicio"
             style="@style/DetalleCamionTextoInformacion"
             android:layout_width="wrap_content"

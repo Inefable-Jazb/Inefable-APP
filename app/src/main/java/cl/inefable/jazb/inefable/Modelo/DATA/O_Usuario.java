@@ -1,7 +1,5 @@
 package cl.inefable.jazb.inefable.Modelo.DATA;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 
 public class O_Usuario implements Serializable {

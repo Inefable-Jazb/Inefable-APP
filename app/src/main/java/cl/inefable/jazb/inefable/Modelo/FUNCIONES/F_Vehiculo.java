@@ -5,7 +5,6 @@ import cl.inefable.jazb.inefable.Modelo.CONN.Enlace;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_TipoVehiculo;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Valoracion;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
-import kotlin.Function;
 import org.json.JSONArray;
 
 import java.util.ArrayList;

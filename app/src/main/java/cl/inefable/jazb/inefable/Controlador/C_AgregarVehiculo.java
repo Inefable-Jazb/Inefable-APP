@@ -1,12 +1,10 @@
 package cl.inefable.jazb.inefable.Controlador;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_TipoVehiculo;
@@ -16,7 +14,6 @@ import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
 import cl.inefable.jazb.inefable.R;
 import com.tapadoo.alerter.Alerter;
 
-import javax.crypto.spec.OAEPParameterSpec;
 import java.util.ArrayList;
 
 public class C_AgregarVehiculo extends AppCompatActivity {

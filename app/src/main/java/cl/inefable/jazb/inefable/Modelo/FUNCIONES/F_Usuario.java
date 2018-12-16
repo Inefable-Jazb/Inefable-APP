@@ -378,6 +378,32 @@ public class F_Usuario {
         return null;
     }
 
+    public static O_Usuario TraerDatosLogin(int usuarioPrevio) {
+        String params = "TIPO=usuario&OP=traerdeatosid" +
+                "&USUARIOID=" + usuarioPrevio;
+        Enlace.RespuetaHTTP respueta;
+        O_Usuario usuarioBD = null;
+        try {
+            respueta = new Enlace().execute(params).get();
+            Log.d("HTTP RESPONSE DATA", respueta.getRespuesta());
+            JSONArray res = new JSONArray(respueta.getRespuesta());
+            if (respueta.getRespuesta().equals("0") || respueta.getRespuesta().equals("-1")) {
+                return null;
+            } else {
+                usuarioBD = new O_Usuario(
+                        res.getInt(0),
+                        res.getString(1),
+                        res.getString(2),
+                        res.getInt(3),
+                        res.getInt(4)
+                );
+            }
+            return usuarioBD;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public int Crear(O_Usuario usuario) {
         String params = "TIPO=usuario&OP=agregar&USUARIO=" + usuario.getUsuario() + "&CLAVE=" + usuario.getClave() + "&TIPP=" + usuario.getTipo();
         Enlace.RespuetaHTTP respueta;

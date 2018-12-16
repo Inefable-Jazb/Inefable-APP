@@ -1,31 +1,15 @@
 package cl.inefable.jazb.inefable.Controlador;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.*;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Reserva;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
-import cl.inefable.jazb.inefable.Modelo.DATA.O_Vehiculo;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
-import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Vehiculo;
-import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
-import cl.inefable.jazb.inefable.Modelo.POJO.O_Ruta;
 import cl.inefable.jazb.inefable.R;
-import com.tapadoo.alerter.Alerter;
-
-import java.util.ArrayList;
 
 public class C_CambiarClave extends AppCompatActivity {
 

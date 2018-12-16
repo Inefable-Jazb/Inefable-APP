@@ -6,7 +6,6 @@ import cl.inefable.jazb.inefable.Modelo.DATA.O_Pais;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class F_Pais {
     public static ArrayList<O_Pais> TraerListaPaises() {

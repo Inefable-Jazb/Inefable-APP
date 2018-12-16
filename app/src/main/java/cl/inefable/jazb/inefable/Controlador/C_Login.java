@@ -2,14 +2,17 @@ package cl.inefable.jazb.inefable.Controlador;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
-import cl.inefable.jazb.inefable.Controlador.Servicios.S_Notificador;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import cl.inefable.jazb.inefable.Modelo.DATA.O_Usuario;
 import cl.inefable.jazb.inefable.Modelo.FUNCIONES.F_Usuario;
 import cl.inefable.jazb.inefable.Modelo.POJO.O_Alerta;
@@ -26,9 +29,35 @@ public class C_Login extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ComprobarLoginPrevio();
         setContentView(R.layout.act_login);
         InicializarComponentes();
         ConfigurarListeners();
+    }
+
+    private void ComprobarLoginPrevio() {
+        Log.d("LOGIN PREVIO", "INCIANDO");
+        SharedPreferences mPrefs = getSharedPreferences("Inefable", 0);
+        int usuarioPrevio = mPrefs.getInt("USUARIOLOGEADO", 0);
+        Log.d("LOGIN PREVIO", "ID GUARDADO: " + usuarioPrevio);
+        if (usuarioPrevio == 0) {
+            return;
+        }
+        O_Usuario usuarioBD = F_Usuario.TraerDatosLogin(usuarioPrevio);
+        Log.d("CONTINUARLOGIN", "CONTINUAR");
+        if (usuarioBD != null) {
+            int info = usuarioBD.getIDInfo();
+            Intent destino;
+            if (info == 0) {
+                destino = new Intent(C_Login.this, C_FirstLogin.class);
+            } else {
+                destino = new Intent(C_Login.this, C_Principal.class);
+            }
+            destino.putExtra("IDUSUARIO", usuarioBD.getID());
+            GuargarLogin(usuarioBD);
+            startActivity(destino);
+            finish();
+        }
     }
 
     private void ConfigurarListeners() {
@@ -112,6 +141,7 @@ public class C_Login extends AppCompatActivity {
                                         destino = new Intent(C_Login.this, C_Principal.class);
                                     }
                                     destino.putExtra("IDUSUARIO", usuarioBD.getID());
+                                    GuargarLogin(usuarioBD);
                                     startActivity(destino);
                                     finish();
                                 } else {
@@ -146,6 +176,13 @@ public class C_Login extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void GuargarLogin(O_Usuario Usuario) {
+        SharedPreferences mPrefs = getSharedPreferences("Inefable", 0);
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        mEditor.putInt("USUARIOLOGEADO", Usuario.getID()).commit();
+        Log.d("USUARIO GUARDADO", "ID: " + mPrefs.getInt("USUARIOLOGEADO", 0));
     }
 
     private boolean ValidarClave(String claveValor) {

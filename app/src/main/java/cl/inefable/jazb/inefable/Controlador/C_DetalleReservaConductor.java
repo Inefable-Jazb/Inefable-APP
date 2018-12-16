@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,26 +25,21 @@ import cl.inefable.jazb.inefable.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.tapadoo.alerter.Alerter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class C_DetalleReservaConductor extends AppCompatActivity implements OnMapReadyCallback {
     public static final int ActCode = 4789;
 
-    private TextView Solicitante, Patente, DireccionInicio, DireccionDestino, Distancia, TiempoEstimado, CostoTotal;
+    private TextView Solicitante, Patente, DireccionInicio, DireccionDestino, Distancia, TiempoEstimado, CostoTotal, Telefono;
     private Button Aceptar, Rechazar, Comenzar, Finalizar;
     private GoogleMap Mapa;
 
@@ -228,6 +222,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
         String solicitante = Reserva.getSolicitante().getNombres() + " " + Reserva.getSolicitante().getApellidos();
         HabilitarBotones(Reserva.getEstado().getNombre());
         Solicitante.setText("Solicitante: " + solicitante);
+        Telefono.setText("N° Teléfono: " + Reserva.getSolicitante().getTelefono());
         Patente.setText("Vehículo: " + Reserva.getVehiculo().getPatente() + ", " + Reserva.getVehiculo().getMarca() + ".");
         DireccionInicio.setText("Inicio: " + Reserva.getDireccionInicio());
         DireccionDestino.setText("Destino: " + Reserva.getDireccionDestino());
@@ -245,6 +240,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
     private void InicilizarComponentes() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Solicitante = findViewById(R.id.tv_detallereservaconductor_solicitante);
+        Telefono = findViewById(R.id.tv_detallereservaconductor_telefono);
         Patente = findViewById(R.id.tv_detallereservaconductor_patente);
         DireccionInicio = findViewById(R.id.tv_detallereservaconductor_direccioninicio);
         DireccionDestino = findViewById(R.id.tv_detallereservaconductor_direciondestino);
@@ -271,7 +267,7 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
             Mapa.getUiSettings().setMyLocationButtonEnabled(true);
             Mapa.setBuildingsEnabled(true);
             Mapa.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            Mapa.getUiSettings().setMapToolbarEnabled(false);
+            Mapa.getUiSettings().setMapToolbarEnabled(true);
             final FusedLocationProviderClient flpc = new FusedLocationProviderClient(this);
             flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
@@ -534,18 +530,23 @@ public class C_DetalleReservaConductor extends AppCompatActivity implements OnMa
         Comenzar.setVisibility(View.GONE);
         Finalizar.setVisibility(View.VISIBLE);
         ActualizarPosición = true;
+
         if (F_Usuario.ComenzarReserva(Reserva) != 0) {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (ActualizarPosición) {
                         final FusedLocationProviderClient flpc = new FusedLocationProviderClient(getApplicationContext());
+                        if (ActivityCompat.checkSelfPermission(C_DetalleReservaConductor.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(C_DetalleReservaConductor.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(C_DetalleReservaConductor.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                            return;
+                        }
                         flpc.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                             @Override
                             public void onComplete(@NonNull Task<Location> task) {
                                 double lat = task.getResult().getLatitude();
                                 double lon = task.getResult().getLongitude();
-
                                 LatLng actual = new LatLng(lat, lon);
                                 F_Usuario.ActualizarPosición(Reserva, actual);
                                 MiPosicion(actual);
